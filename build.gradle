@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'
+        classpath "com.jakewharton:butterknife-gradle-plugin:10.1.0"
     }
 }
 
@@ -35,5 +35,5 @@ ext {
     materialVersion='1.1.0-alpha09'
     geniusVersion = '2.1.1'
     circleImageViewVwesion='3.0.1'
-    glideVersion='4.9.0'
+    glideVersion='3.7.0'
 }

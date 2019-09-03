@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /* 名称: ITalker.com.wy.common.app.BaseActivity
  * 用户: _VIEW
