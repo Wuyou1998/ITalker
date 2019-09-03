@@ -72,11 +72,19 @@
         app:layout_anchor="@id/fl_container"
         app:layout_anchorGravity="bottom|end"
         android:layout_marginEnd="@dimen/len_16"
-        android:layout_marginBottom="@dimen/len_68" />
+        android:layout_marginBottom="@dimen/len_68"
+        android:translationY="@dimen/len_76" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nbv_navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_52"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        app:menu="@menu/navigation_items"
+        app:itemIconTint="@color/text_nav"
+        app:itemTextColor="@color/text_nav"
+        android:elevation="@dimen/len_4"
+        android:background="@color/white"
+        android:translationZ="@dimen/len_8"
+        android:outlineProvider="bounds" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
