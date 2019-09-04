@@ -16,7 +16,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -36,4 +36,5 @@ ext {
     geniusVersion = '2.1.1'
     circleImageViewVwesion='3.0.1'
     glideVersion='3.7.0'
+    uCropVersion='2.2.3'
 }

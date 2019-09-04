@@ -13,8 +13,7 @@ import butterknife.BindView;
 
 
 public class ActiveFragment extends BaseFragment {
-    @BindView(R.id.gv_gallery)
-    GalleryView gv_gallery;
+
 
     @Override
     protected int getContentLayoutId() {
@@ -29,11 +28,6 @@ public class ActiveFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        gv_gallery.setUp(LoaderManager.getInstance(this), new GalleryView.SelectedChangeListener() {
-            @Override
-            public void onSelectedCountChanged(int count) {
 
-            }
-        });
     }
 }

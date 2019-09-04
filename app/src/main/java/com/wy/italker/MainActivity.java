@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.ViewTarget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wy.common.app.BaseActivity;
 import com.wy.common.widget.PortraitView;
+import com.wy.italker.activities.AccountActivity;
 import com.wy.italker.fragments.helper.NavHelper;
 import com.wy.italker.fragments.mian.ActiveFragment;
 import com.wy.italker.fragments.mian.ContactFragment;
@@ -99,6 +100,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
+        AccountActivity.show(this);
 
     }
 

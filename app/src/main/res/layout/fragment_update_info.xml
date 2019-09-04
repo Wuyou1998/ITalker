@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.account.UpdateInfoFragment">
+
+    <com.wy.common.widget.PortraitView
+        android:id="@+id/iv_avatar"
+        android:src="@color/colorAccent"
+        android:layout_width="@dimen/portraitMaxSize"
+        android:layout_height="@dimen/portraitMaxSize"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center" />
+
+</FrameLayout>
