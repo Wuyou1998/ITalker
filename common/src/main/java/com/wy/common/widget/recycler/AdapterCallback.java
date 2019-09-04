@@ -6,5 +6,5 @@ package com.wy.common.widget.recycler;
  * 描述: adapter 回调
  */
 public interface AdapterCallback<Data> {
-    void upDate(Data data, RecyclerAdapter.ViewHolder<Data> viewHolder);
+    void update(Data data, RecyclerAdapter.ViewHolder<Data> viewHolder);
 }

@@ -22,7 +22,7 @@ import butterknife.Unbinder;
  * 时间: 2019/9/2,14:06
  * 描述: RecyclerView.Adapter
  */
-public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
+public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder<Data>>
         implements View.OnClickListener, View.OnLongClickListener, AdapterCallback<Data> {
     private final List<Data> mDataList;
     private AdapterListener<Data> adapterListener;
@@ -55,7 +55,7 @@ public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<Recycle
      */
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder<Data> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //得到inflater用于将xml初始化为view
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         //将xml id 为viewType的文件初始化为一个rootView
@@ -75,7 +75,7 @@ public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<Recycle
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder<Data> holder, int position) {
         Data data = mDataList.get(position);
         holder.bind(data);
 
@@ -188,6 +188,19 @@ public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<Recycle
         return false;
     }
 
+    @Override
+    public void update(Data data, ViewHolder<Data> viewHolder) {
+        //得到当前viewHolder的坐标
+        int position = viewHolder.getAdapterPosition();
+        if (position >= 0) {
+            //进行数据的移除与更新
+            mDataList.remove(position);
+            mDataList.add(position, data);
+            //通知该坐标ui刷新
+            notifyItemChanged(position);
+        }
+    }
+
     /**
      * 自定义的监听器
      *
@@ -239,8 +252,21 @@ public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<Recycle
          */
         public void updateData(Data data) {
             if (this.adapterCallback != null) {
-                this.adapterCallback.upDate(data, this);
+                this.adapterCallback.update(data, this);
             }
+
+        }
+    }
+
+    public static abstract class AdapterListenerImpl<Data> implements AdapterListener<Data>{
+
+        @Override
+        public void onItemClick(ViewHolder viewHolder, Data data) {
+
+        }
+
+        @Override
+        public void onItemLongClick(ViewHolder viewHolder, Data data) {
 
         }
     }

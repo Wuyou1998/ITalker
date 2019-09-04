@@ -29,7 +29,7 @@
 
     <string name="label_follows">Follows\n%s</string>
     <string name="label_following">Following\n%s</string>
-    <string name="label_gallery_select_max_size">至多选择%s张</string>
+    <string name="label_gallery_select_max_size">至多选择%d张</string>
     <string name="label_gallery_selected_size">已选%s张</string>
 
     <string name="label_group_name">群名称</string>

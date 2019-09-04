@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragments.mian.ActiveFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/action_home"
-        android:textColor="@color/textPrimary"
-        android:layout_gravity="center" />
+    <com.wy.common.widget.GalleryView
+        android:id="@+id/gv_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="1dp" />
 
 </FrameLayout>
