@@ -1,6 +1,8 @@
-package com.wy.italker;
+package com.wy.italker.activities;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +23,9 @@ import com.bumptech.glide.request.target.ViewTarget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wy.common.app.BaseActivity;
 import com.wy.common.widget.PortraitView;
+import com.wy.italker.R;
 import com.wy.italker.activities.AccountActivity;
+import com.wy.italker.fragments.assist.PermissionsFragment;
 import com.wy.italker.fragments.helper.NavHelper;
 import com.wy.italker.fragments.mian.ActiveFragment;
 import com.wy.italker.fragments.mian.ContactFragment;
@@ -64,6 +68,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private NavHelper<Integer> navHelper;
     private static final String TAG = "MainActivity";
 
+    /**
+     * MainActivity 显示的入口
+     *
+     * @param context 上下文
+     */
+    public static void show(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
@@ -97,10 +110,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         Menu menu = nbv_navigation.getMenu();
         //触发点击 home
         menu.performIdentifierAction(R.id.action_home, 0);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-        AccountActivity.show(this);
 
     }
 

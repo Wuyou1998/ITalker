@@ -9,7 +9,7 @@
     <string name="title_search_group">搜索群</string>
 
     <string name="title_select_gallery">选择照片</string>
-    <string name="title_assist_permissions">授予权限</string>
+    <string name="title_assist_permissions">请授予权限</string>
 
     <string name="title_member_list">成员</string>
     <string name="title_member_add">添加新成员</string>

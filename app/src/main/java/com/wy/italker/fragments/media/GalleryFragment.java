@@ -45,13 +45,14 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final Context context = Objects.requireNonNull(getActivity());
-        final FrameLayout frameLayout = new FrameLayout(context);
-
-        inflater.inflate(R.layout.fragment_gallery, frameLayout, true);
-        galleryView = frameLayout.findViewById(R.id.gv_gallery);
-
-        return frameLayout;
+//        final Context context = Objects.requireNonNull(getActivity());
+//        final FrameLayout frameLayout = new FrameLayout(context);
+//
+//        inflater.inflate(R.layout.fragment_gallery, frameLayout, true);
+//        galleryView = frameLayout.findViewById(R.id.gv_gallery);
+        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        galleryView = root.findViewById(R.id.gv_gallery);
+        return root;
     }
 
     @Override
@@ -95,7 +96,7 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
         void onSelectedImage(String path);
     }
 
-    private static class TransStatusBottomSheetDialog extends BottomSheetDialog {
+   public static class TransStatusBottomSheetDialog extends BottomSheetDialog {
 
         public TransStatusBottomSheetDialog(@NonNull Context context) {
             super(context);
