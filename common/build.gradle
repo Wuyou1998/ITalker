@@ -39,6 +39,11 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
     implementation "net.qiujuer.genius:ui:$rootProject.ext.geniusVersion"
     implementation "net.qiujuer.genius:res:$rootProject.ext.geniusVersion"
+    implementation "net.qiujuer.genius:kit-handler:$rootProject.ext.geniusVersion"
+    // 空气面板
+    implementation "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
+    // Lame 录音 MP3 转码器
+    implementation "net.qiujuer.lame:lame:$rootProject.ext.lameVersion"
     implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleImageViewVwesion"
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     implementation project(path: ':lang')

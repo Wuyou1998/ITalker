@@ -37,4 +37,11 @@ ext {
     circleImageViewVwesion='3.0.1'
     glideVersion='3.7.0'
     uCropVersion='2.2.3'
+    airpanelVersion = "1.4.0"
+    lameVersion = "1.2.0"
+    easyPMVersion = "3.0.0"
+    ossVersion = '2.9.1'
+    gsonVersion = '2.8.0'
+    retrofitVersion = '2.1.0'
+    dbflowVersion = "4.0.4"
 }
