@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @OnClick(R.id.iv_avatar)
     void onAvatarClick() {
-
+        AccountActivity.show(this);
     }
 
     @OnClick(R.id.f_btn_action)

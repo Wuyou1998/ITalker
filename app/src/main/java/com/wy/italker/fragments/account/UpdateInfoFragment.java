@@ -4,11 +4,14 @@ package com.wy.italker.fragments.account;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.wy.common.app.Application;
 import com.wy.common.app.BaseFragment;
 import com.wy.common.widget.PortraitView;
+import com.wy.factory.Factory;
+import com.wy.factory.net.UploadHelper;
 import com.wy.italker.R;
 import com.wy.italker.fragments.media.GalleryFragment;
 import com.yalantis.ucrop.UCrop;
@@ -24,6 +27,7 @@ import static android.app.Activity.RESULT_OK;
  * 更新账户信息的界面
  */
 public class UpdateInfoFragment extends BaseFragment {
+    private static final String TAG = "UpdateInfoFragment";
     @BindView(R.id.iv_avatar)
     PortraitView iv_avatar;
 
@@ -68,6 +72,7 @@ public class UpdateInfoFragment extends BaseFragment {
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
+            Log.e(TAG, "图片裁剪出错: " + cropError.getMessage());
         }
     }
 
@@ -77,6 +82,16 @@ public class UpdateInfoFragment extends BaseFragment {
      * @param uri 图片uri
      */
     private void loadAvatar(Uri uri) {
+        //拿到本地地址
         Glide.with(getContext()).load(uri).asBitmap().centerCrop().into(iv_avatar);
+        String localPath = uri.getPath();
+        Log.e(TAG, "loadAvatar: " + localPath);
+        Factory.runOnAsync(new Runnable() {
+            @Override
+            public void run() {
+                String url = UploadHelper.uploadAvatar(localPath);
+                Log.e(TAG, "AvatarUrl: " + url);
+            }
+        });
     }
 }
