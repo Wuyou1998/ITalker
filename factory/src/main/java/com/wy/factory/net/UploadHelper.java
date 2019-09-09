@@ -8,8 +8,7 @@ import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
-import com.alibaba.sdk.android.oss.model.PutObjectResult;
-import com.wy.common.Constant;
+import com.wy.common.Common;
 import com.wy.common.app.Application;
 import com.wy.common.utils.HashUtil;
 
@@ -26,9 +25,9 @@ public class UploadHelper {
 
     private static OSS getClient() {
         // 在移动端建议使用STS的方式初始化OSSClient。
-        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(Constant.ALI_ACCESS_KEY_ID,
-                Constant.ALI_ACCESS_KEY_SECRET);
-        return new OSSClient(Application.getInstance(), Constant.ALI_END_POINT, credentialProvider);
+        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(Common.ALI_ACCESS_KEY_ID,
+                Common.ALI_ACCESS_KEY_SECRET);
+        return new OSSClient(Application.getInstance(),Common.ALI_END_POINT, credentialProvider);
     }
 
     /**
@@ -40,15 +39,15 @@ public class UploadHelper {
      */
     private static String upload(String key, String path) {
         // 构造上传请求
-        PutObjectRequest request = new PutObjectRequest(Constant.ALI_BUCKET_NAME, key, path);
+        PutObjectRequest request = new PutObjectRequest(Common.ALI_BUCKET_NAME, key, path);
         try {
             //初始化上传的client
             OSS client = getClient();
             //开始同步上传
             client.putObject(request);
             //得到一个外网可访问的url
-            Log.e(TAG, "上传后的文件URL: " + client.presignPublicObjectURL(Constant.ALI_BUCKET_NAME, key));
-            return client.presignPublicObjectURL(Constant.ALI_BUCKET_NAME, key);
+            Log.e(TAG, "上传后的文件URL: " + client.presignPublicObjectURL(Common.ALI_BUCKET_NAME, key));
+            return client.presignPublicObjectURL(Common.ALI_BUCKET_NAME, key);
 
         } catch (Exception e) {
             e.printStackTrace();

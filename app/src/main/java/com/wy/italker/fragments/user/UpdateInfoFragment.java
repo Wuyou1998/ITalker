@@ -1,4 +1,4 @@
-package com.wy.italker.fragments.account;
+package com.wy.italker.fragments.user;
 
 
 import android.content.Intent;
@@ -86,12 +86,9 @@ public class UpdateInfoFragment extends BaseFragment {
         Glide.with(getContext()).load(uri).asBitmap().centerCrop().into(iv_avatar);
         String localPath = uri.getPath();
         Log.e(TAG, "loadAvatar: " + localPath);
-        Factory.runOnAsync(new Runnable() {
-            @Override
-            public void run() {
-                String url = UploadHelper.uploadAvatar(localPath);
-                Log.e(TAG, "AvatarUrl: " + url);
-            }
+        Factory.runOnAsync(() -> {
+            String url = UploadHelper.uploadAvatar(localPath);
+            Log.e(TAG, "AvatarUrl: " + url);
         });
     }
 }

@@ -3,16 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wy.italker">
     <!-- 网络相关的权限 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 读取存储权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 写存储权限，OSS需要 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 录音权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -22,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activities.UserActivity"></activity>
         <activity android:name=".LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,8 +30,7 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <!-- Android7 FileProvider 适配 -->
+            android:theme="@style/AppTheme" /> <!-- Android7 FileProvider 适配 -->
         <provider
             android:name=".AppFileProvider"
             android:authorities="${applicationId}.provider"
@@ -51,5 +41,12 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 读取存储权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 写存储权限，OSS需要 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
