@@ -91,8 +91,8 @@ public class RegisterFragment extends PresenterFragment<RegisterContract.Present
         String phone = edt_phone.getText().toString().trim();
         String password = edt_password.getText().toString().trim();
         String name = edt_name.getText().toString().trim();
-        //调用P层进行注册
-        presenter.register(phone, password, name);
+        //调用P层进行注册 com/wy/factory/presenter/account/RegisterPresenter.java
+        presenter.register(phone, name, password);
     }
 
     @OnClick(R.id.tv_go_login)

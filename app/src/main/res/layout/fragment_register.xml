@@ -201,7 +201,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/font_28">
+        android:layout_marginBottom="@dimen/len_28">
 
         <net.qiujuer.genius.ui.widget.Button
             android:id="@+id/btn_submit"
@@ -214,15 +214,16 @@
             app:gTouchCornerRadius="@dimen/font_22"
             app:gTouchEffect="ripple"
             android:background="@drawable/sel_btn_bg_black_alpha_44" />
+        <net.qiujuer.genius.ui.widget.Loading
+            android:id="@+id/loading"
+            android:layout_width="@dimen/len_36"
+            android:layout_height="@dimen/len_36"
+            android:layout_gravity="center"
+            app:gForegroundColor="@color/white"
+            app:gBackgroundColor="@color/trans"
+            app:gForegroundLineSize="1dp"
+            app:gAutoRun="false" />
     </FrameLayout>
 
-    <net.qiujuer.genius.ui.widget.Loading
-        android:id="@+id/loading"
-        android:layout_width="@dimen/len_36"
-        android:layout_height="@dimen/len_36"
-        android:layout_gravity="center"
-        app:gForegroundColor="@color/white"
-        app:gBackgroundColor="@color/trans"
-        app:gForegroundLineSize="1dp"
-        app:gAutoRun="false" />
+
 </LinearLayout>

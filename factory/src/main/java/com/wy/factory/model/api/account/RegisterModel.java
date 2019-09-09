@@ -1,8 +1,8 @@
-package com.wy.factory.model.api;
+package com.wy.factory.model.api.account;
 
 import androidx.annotation.NonNull;
 
-/* 名称: ITalker.com.wy.factory.model.api.RegisterModel
+/* 名称: ITalker.com.wy.factory.model.api.account.RegisterModel
  * 用户: _VIEW
  * 时间: 2019/9/9,16:54
  * 描述: 注册使用的请求model
