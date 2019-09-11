@@ -109,6 +109,10 @@ public class AccountHelper {
                 //持久化保存到XML中
                 Account.login(accountRspModel);
                 if (accountRspModel.isBind()) {
+                    /*launchActivity里会判断Account.isBind()
+                     *如果不设置为true，isBind永远是false，launchActivity表现为卡住
+                     */
+                    Account.setIsBind(true);
                     if (userCallback != null)
                         userCallback.onDataLoad(user);
                 } else {

@@ -25,6 +25,8 @@ import net.qiujuer.genius.ui.compat.UiCompat;
 public class LaunchActivity extends BaseActivity {
     //Drawable
     private ColorDrawable mBgDrawable;
+    // 是否已经得到PushId
+    private boolean mAlreadyGotPushReceiverId = false;
 
 
     @Override
@@ -54,6 +56,17 @@ public class LaunchActivity extends BaseActivity {
         startAnim(0.5f, this::waitPushReceiveId);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 判断是否已经得到推送Id，如果已经得到则进行跳转操作，
+        // 在操作中检测权限状态
+        if (mAlreadyGotPushReceiverId) {
+            realSkip();
+        }
+    }
+
     /**
      * 等待个推框架对id设置好值
      */
@@ -68,7 +81,7 @@ public class LaunchActivity extends BaseActivity {
         } else {
             //没有登录，如果拿到了PushId，没有登录是不能绑定PushId的
             if (!TextUtils.isEmpty(Account.getPushId())) {
-                skip();
+                waitPushReceiverIdDone();
                 return;
             }
         }
@@ -82,6 +95,15 @@ public class LaunchActivity extends BaseActivity {
      * 如果都有权限就跳转MainActivity，自己finish
      */
     private void skip() {
+        startAnim(1f, this::realSkip);
+    }
+
+    /**
+     * 在跳转之前需要把剩下的50%进行完成
+     */
+    private void waitPushReceiverIdDone() {
+        // 标志已经得到PushId
+        mAlreadyGotPushReceiverId = true;
         startAnim(1f, this::realSkip);
     }
 

@@ -7,9 +7,12 @@ import com.wy.common.app.PresenterFragment;
 import com.wy.factory.presenter.account.LoginContract;
 import com.wy.factory.presenter.account.LoginPresenter;
 import com.wy.italker.R;
+import com.wy.italker.activities.MainActivity;
 
 import net.qiujuer.genius.ui.widget.Button;
 import net.qiujuer.genius.ui.widget.Loading;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,10 +56,6 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter> im
         super.onResume();
     }
 
-    @Override
-    public void showError(int str) {
-        super.showError(str);
-    }
 
     @Override
     public void showLoading() {
@@ -72,6 +71,14 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter> im
 
     @Override
     public void loginSuccess() {
+
+        MainActivity.show(Objects.requireNonNull(getContext()));
+        Objects.requireNonNull(getActivity()).finish();
+    }
+
+    @Override
+    public void showError(int str) {
+        super.showError(str);
         //当需要显示错误的时候触发，一定是结束了
         loading.stop();
         //让控件可以输入
@@ -80,6 +87,7 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter> im
         //登录按钮可以继续点击
         btn_submit.setEnabled(true);
     }
+
 
     @OnClick(R.id.btn_submit)
     void onSubmitClick() {

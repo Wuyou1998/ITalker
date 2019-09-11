@@ -69,6 +69,7 @@ public class Account {
 
     public static void setToken(String token) {
         Account.token = token;
+        save(Application.getInstance());
     }
 
     public static String getUserId() {
@@ -77,6 +78,7 @@ public class Account {
 
     public static void setUserId(String userId) {
         Account.userId = userId;
+        save(Application.getInstance());
     }
 
     public static String getAccount() {
@@ -85,6 +87,7 @@ public class Account {
 
     public static void setAccount(String account) {
         Account.account = account;
+        save(Application.getInstance());
     }
 
     public static void setIsBind(boolean isBind) {

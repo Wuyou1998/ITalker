@@ -2,6 +2,7 @@ package com.wy.factory.presenter.account;
 
 import android.text.TextUtils;
 
+import com.wy.common.Common;
 import com.wy.common.factory.data.DataSource;
 import com.wy.common.factory.presenter.BasePresenter;
 import com.wy.factory.R;
@@ -12,6 +13,8 @@ import com.wy.factory.persistence.Account;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
+
+import java.util.regex.Pattern;
 
 /* 名称: ITalker.com.wy.factory.presenter.account.LoginPresenter
  * 用户: _VIEW
@@ -28,8 +31,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     public void login(String phone, String password) {
         start();
         final LoginContract.View view = getView();
-        if (!TextUtils.isEmpty(phone) || !TextUtils.isEmpty(password) || checkMobile(phone)) {
-            view.showError(R.string.data_account_login_invalid_parameter);
+        if (!checkMobile(phone)) {
+            view.showError(R.string.data_account_register_invalid_parameter_mobile);
+        } else if (password.length() < 6) {
+            view.showError(R.string.data_account_register_invalid_parameter_password);
         } else {
             //尝试获取PushId
             LoginModel loginModel = new LoginModel(phone, password, Account.getPushId());
@@ -40,7 +45,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public boolean checkMobile(String phone) {
-        return false;
+        //手机号不为空，并且满足格式
+        return !TextUtils.isEmpty(phone) && Pattern.matches(Common.REGEX_MOBILE, phone);
     }
 
     @Override
