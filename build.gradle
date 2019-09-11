@@ -17,6 +17,9 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {
+            url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/"
+        }
     }
 }
 
@@ -44,4 +47,5 @@ ext {
     gsonVersion = '2.8.0'
     retrofitVersion = '2.1.0'
     dbflowVersion = "4.0.4"
+    getuiVersion="2.13.3.0"
 }

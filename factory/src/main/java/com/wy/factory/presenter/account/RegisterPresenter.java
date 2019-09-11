@@ -9,6 +9,7 @@ import com.wy.factory.R;
 import com.wy.factory.data.helper.AccountHelper;
 import com.wy.factory.model.api.account.RegisterModel;
 import com.wy.factory.model.db.User;
+import com.wy.factory.persistence.Account;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
@@ -44,7 +45,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View>
             //进行网络请求
 
             //构造model，进行请求调用
-            RegisterModel registerModel = new RegisterModel(phone, password, name);
+            RegisterModel registerModel = new RegisterModel(phone, password, name, Account.getPushId());
             //进行网络请求并设置回调接口为自己
             AccountHelper.register(registerModel, this);
         }

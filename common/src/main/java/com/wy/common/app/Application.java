@@ -13,7 +13,7 @@ import java.io.File;
 /* 名称: ITalker.com.wy.common.app.Application
  * 用户: _VIEW
  * 时间: 2019/9/4,15:11
- * 描述: ToDo
+ * 描述: 基础Application
  */
 public class Application extends android.app.Application {
     private static Application instance;

@@ -2,18 +2,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wy.italker">
-    <!-- 网络相关的权限 -->
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/avatar"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/net_config"
         android:roundIcon="@mipmap/avatar"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.UserActivity"></activity>
-        <activity android:name=".LaunchActivity">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:targetApi="n">
+        <activity android:name=".activities.UserActivity" />
+
+        <activity
+            android:name=".LaunchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +36,7 @@
         </activity>
         <activity
             android:name=".activities.AccountActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Account" />
         <activity
             android:name=".activities.MainActivity"
@@ -30,7 +45,8 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" /> <!-- Android7 FileProvider 适配 -->
+            android:theme="@style/AppTheme" />
+        <!-- Android7 FileProvider 适配 -->
         <provider
             android:name=".AppFileProvider"
             android:authorities="${applicationId}.provider"
@@ -40,13 +56,21 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+        <!-- 个推广播注册 -->
+        <receiver
+            android:name=".MessageReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="1000">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".PushService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pushservice"
+            android:permission="1000" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 读取存储权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 写存储权限，OSS需要 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 录音权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>

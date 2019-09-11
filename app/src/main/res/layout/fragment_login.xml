@@ -128,7 +128,7 @@
         android:paddingEnd="@dimen/len_16">
 
         <TextView
-            android:id="@+id/tv_go_login"
+            android:id="@+id/tv_go_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
@@ -164,21 +164,21 @@
             android:layout_width="@dimen/len_172"
             android:layout_height="@dimen/len_44"
             android:layout_gravity="center"
-            android:text="@string/label_register"
+            android:text="@string/label_login"
             android:textColor="@color/white"
             app:gTouchColor="@color/white_alpha_48"
             app:gTouchCornerRadius="@dimen/font_22"
             app:gTouchEffect="ripple"
             android:background="@drawable/sel_btn_bg_black_alpha_44" />
+        <net.qiujuer.genius.ui.widget.Loading
+            android:id="@+id/loading"
+            android:layout_width="@dimen/len_36"
+            android:layout_height="@dimen/len_36"
+            android:layout_gravity="center"
+            app:gForegroundColor="@color/white"
+            app:gBackgroundColor="@color/trans"
+            app:gForegroundLineSize="1dp"
+            app:gAutoRun="false" />
     </FrameLayout>
 
-    <net.qiujuer.genius.ui.widget.Loading
-        android:id="@+id/loading"
-        android:layout_width="@dimen/len_36"
-        android:layout_height="@dimen/len_36"
-        android:layout_gravity="center"
-        app:gForegroundColor="@color/white"
-        app:gBackgroundColor="@color/trans"
-        app:gForegroundLineSize="1dp"
-        app:gAutoRun="false" />
 </LinearLayout>

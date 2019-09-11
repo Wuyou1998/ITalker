@@ -47,4 +47,9 @@
         <item name="android:textSize">?attr/toolbarTitleSize</item>
         <item name="android:textColor">?attr/toolbarTitleColor</item>
     </style>
+
+    <style name="AppTheme.FullScreen" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

@@ -22,4 +22,12 @@ public class Network {
                 .addConverterFactory(GsonConverterFactory.create(Factory.getGson()))
                 .build();
     }
+
+    /**
+     * 返回一个请求代理
+     * @return RemoteService
+     */
+    public static RemoteService remote() {
+        return Network.getRetrofit().create(RemoteService.class);
+    }
 }

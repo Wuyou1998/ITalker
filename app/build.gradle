@@ -8,6 +8,15 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                GETUI_APP_ID : "9Ge99dNB1R6plq2gWffez3",
+                GETUI_APP_KEY : "ygRHKvgaVi5WvpzObff1I7",
+                GETUI_APP_SECRET : "oQ6VgzNIKW7hRqIeyXZp04"
+        ]
+        ndk {
+            // 添加项目所需CPU类型的最小集
+            abiFilters "armeabi", "armeabi-v7a", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -15,6 +24,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets{
+        main{
+            jniLibs.srcDirs=['libs']
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -37,6 +52,7 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
     implementation "com.github.yalantis:ucrop:$rootProject.ext.uCropVersion"
     implementation "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
+    implementation "com.getui:sdk:$rootProject.ext.getuiVersion"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

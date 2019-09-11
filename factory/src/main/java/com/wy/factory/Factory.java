@@ -4,9 +4,13 @@ import androidx.annotation.StringRes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.wy.common.app.Application;
 import com.wy.common.factory.data.DataSource;
 import com.wy.factory.model.api.RspModel;
+import com.wy.factory.persistence.Account;
+import com.wy.factory.utils.DBFlowExclusionStrategy;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -29,8 +33,8 @@ public class Factory {
         executor = Executors.newFixedThreadPool(4);
         //Gson初始化,设置时间格式，设置过滤器
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
-                //TODO 设置一个过滤器，数据库级别的Model不进行Json转换
-                //.setExclusionStrategies()
+                //设置一个过滤器，数据库级别的Model不进行Json转换
+                .setExclusionStrategies(new DBFlowExclusionStrategy())
                 .create();
     }
 
@@ -123,9 +127,31 @@ public class Factory {
                 break;
         }
     }
+
     private static void decodeRspCode(@StringRes final int resId,
                                       final DataSource.FailedCallback callback) {
         if (callback != null)
             callback.onDataNotAvailable(resId);
+    }
+
+    /**
+     * 处理推送过来的消息
+     *
+     * @param message 信息
+     */
+    public static void dispatchPush(String message) {
+
+    }
+
+    /**
+     * Factory的初始化
+     */
+    public static void setUp() {
+        //初始化数据
+        FlowManager.init(new FlowConfig.Builder(Application.getInstance())
+                .openDatabasesOnInit(true)//数据库在初始化的时候就打开
+                .build());
+        //持久化的数据的初始化
+        Account.load(Application.getInstance());
     }
 }
