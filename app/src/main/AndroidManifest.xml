@@ -22,7 +22,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".activities.UserActivity" />
+        <activity android:name=".activities.UserActivity"
+            android:theme="@style/AppTheme.TransStatusBar"/>
 
         <activity
             android:name=".LaunchActivity"

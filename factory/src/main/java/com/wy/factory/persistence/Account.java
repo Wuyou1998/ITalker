@@ -110,8 +110,12 @@ public class Account {
      * @return true 完善了
      */
     public static boolean isComplete() {
-        //TODO
-        return isLogin();
+        //首先保证登录成功
+        if (isLogin()) {
+            User self = getUser();
+            return !TextUtils.isEmpty(self.getDescription()) && !TextUtils.isEmpty(self.getAvatar()) && self.getSex() != 0;
+        }
+        return false;
     }
 
     /**

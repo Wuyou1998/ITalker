@@ -14,9 +14,8 @@
         android:paddingTop="@dimen/len_40"
         android:paddingBottom="@dimen/len_48"
         app:title="@string/label_login_welcome"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1">
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"/>
 
-    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"

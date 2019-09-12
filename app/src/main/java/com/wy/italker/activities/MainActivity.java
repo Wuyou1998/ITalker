@@ -1,9 +1,8 @@
 package com.wy.italker.activities;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -23,9 +20,8 @@ import com.bumptech.glide.request.target.ViewTarget;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wy.common.app.BaseActivity;
 import com.wy.common.widget.PortraitView;
+import com.wy.factory.persistence.Account;
 import com.wy.italker.R;
-import com.wy.italker.activities.AccountActivity;
-import com.wy.italker.fragments.assist.PermissionsFragment;
 import com.wy.italker.fragments.helper.NavHelper;
 import com.wy.italker.fragments.mian.ActiveFragment;
 import com.wy.italker.fragments.mian.ContactFragment;
@@ -80,6 +76,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        if (Account.isComplete())
+            //判断用户信息是否完全，完全则走正常流程
+            return super.initArgs(bundle);
+        else {
+            UserActivity.show(this);
+            return false;
+        }
+
     }
 
     @Override

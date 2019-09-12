@@ -1,54 +1,34 @@
-package com.wy.factory.model.db;
+package com.wy.factory.model.card;
 
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
+
+
+import com.wy.factory.model.db.User;
 
 import java.util.Date;
-import java.util.Objects;
 
-/* 名称: ITalker.com.wy.factory.model.db.User
- * 用户: _VIEW
- * 时间: 2019/9/9,17:07
- * 描述: bean user
+/**
+ * 用户卡片，用于接收服务器返回
+ * @author qiujuer Email:qiujuer@live.cn
+ * @version 1.0.0
  */
-@Table(database = AppDatabase.class)
-public class User extends BaseModel {
-    public static final int SEX_MAN = 1;
-    public static final int SEX_WOMAN = 2;
-    // 主键
-    @PrimaryKey
+public class UserCard {
     private String id;
-    @Column
     private String name;
-    @Column
     private String phone;
-    @Column
     private String avatar;
-    @Column
     private String description;
-    @Column
     private int sex = 0;
 
-    // 我对某人的备注信息，也应该写入到数据库中
-    @Column
-    private String alias;
-
     // 用户关注人的数量
-    @Column
     private int follows;
 
     // 用户粉丝的数量
-    @Column
     private int following;
 
     // 我与当前User的关系状态，是否已经关注了这个人
-    @Column
     private boolean isFollow;
 
-    // 时间字段
-    @Column
+    // 用户信息最后的更新时间
     private Date modifyAt;
 
     public String getId() {
@@ -99,14 +79,6 @@ public class User extends BaseModel {
         this.sex = sex;
     }
 
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
     public int getFollows() {
         return follows;
     }
@@ -139,26 +111,24 @@ public class User extends BaseModel {
         this.modifyAt = modifyAt;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return sex == user.sex
-                && follows == user.follows
-                && following == user.following
-                && isFollow == user.isFollow
-                && Objects.equals(id, user.id)
-                && Objects.equals(name, user.name)
-                && Objects.equals(phone, user.phone)
-                && Objects.equals(avatar, user.avatar)
-                && Objects.equals(description, user.description)
-                && Objects.equals(alias, user.alias)
-                && Objects.equals(modifyAt, user.modifyAt);
-    }
+    // 缓存一个对应的User, 不能被GSON框架解析使用ø
+    private transient User user;
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public User build() {
+        if (user == null) {
+            User user = new User();
+            user.setId(id);
+            user.setName(name);
+            user.setAvatar(avatar);
+            user.setPhone(phone);
+            user.setDescription(description);
+            user.setSex(sex);
+            user.setFollow(isFollow);
+            user.setFollows(follows);
+            user.setFollowing(following);
+            user.setModifyAt(modifyAt);
+            this.user = user;
+        }
+        return user;
     }
 }

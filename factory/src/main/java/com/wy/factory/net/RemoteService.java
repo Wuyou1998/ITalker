@@ -4,10 +4,13 @@ import com.wy.factory.model.api.RspModel;
 import com.wy.factory.model.api.account.AccountRspModel;
 import com.wy.factory.model.api.account.LoginModel;
 import com.wy.factory.model.api.account.RegisterModel;
+import com.wy.factory.model.api.user.UserUpdateModel;
+import com.wy.factory.model.card.UserCard;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /* 名称: ITalker.com.wy.factory.net.RemoteService
@@ -43,4 +46,7 @@ public interface RemoteService {
     @POST("account/bind/{pushId}")
     Call<RspModel<AccountRspModel>> accountBind(@Path(encoded = true, value = "pushId") String pushId);
 
+    //用户信息更新的接口
+    @PUT("user")
+    Call<RspModel<UserCard>> userUpdate(@Body UserUpdateModel model);
 }
