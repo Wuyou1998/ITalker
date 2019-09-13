@@ -6,7 +6,7 @@ package com.wy.common;
  * 描述: 持久化的常量
  */
 public class Common {
-    public static final String API_URL="http://192.168.31.127:8088/api/";
+    public static final String API_URL="http://192.168.31.126:8088/api/";
     public static final String REGEX_MOBILE = "[1][3,4,5,7,8][0-9]{9}$";
     //个推
     public static final String GE_TUI_APP_ID = "9Ge99dNB1R6plq2gWffez3";

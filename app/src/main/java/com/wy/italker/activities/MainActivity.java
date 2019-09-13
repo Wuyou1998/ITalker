@@ -128,12 +128,22 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @OnClick(R.id.f_btn_action)
     void onFBtnClick() {
+        //浮动按钮点击时，当前页面如果是群，则打开创建群页面，否则打开添加联系人页面
+        if (Objects.equals(navHelper.getCurrentTab().extra, R.string.title_group)) {
+            //TODO 群创建
+            SearchActivity.show(this, SearchActivity.TYPE_GROUP);
+        } else if (Objects.equals(navHelper.getCurrentTab().extra, R.string.title_contact)) {
+            SearchActivity.show(this, SearchActivity.TYPE_USER);
+        }
 
     }
 
     @OnClick(R.id.iv_search)
     void onSearchClick() {
-
+        //在群的界面时，点击顶部的搜索就打开去搜索页面，其他均为人搜索页面
+        int type = Objects.equals(navHelper.getCurrentTab().extra, R.string.title_group) ?
+                SearchActivity.TYPE_GROUP : SearchActivity.TYPE_USER;
+        SearchActivity.show(this, type);
     }
 
     //底部导航栏被选中时调用

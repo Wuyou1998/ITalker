@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--    recycler封装的内部属性-->
     <item name="tag_recycler_holder" type="id" />
+    <!--    toolbar的默认id名-->
+    <item name="toolbar" type="id" />
 </resources>

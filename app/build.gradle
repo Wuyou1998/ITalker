@@ -9,9 +9,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
-                GETUI_APP_ID : "9Ge99dNB1R6plq2gWffez3",
-                GETUI_APP_KEY : "ygRHKvgaVi5WvpzObff1I7",
-                GETUI_APP_SECRET : "oQ6VgzNIKW7hRqIeyXZp04"
+                GETUI_APP_ID    : "9Ge99dNB1R6plq2gWffez3",
+                GETUI_APP_KEY   : "ygRHKvgaVi5WvpzObff1I7",
+                GETUI_APP_SECRET: "oQ6VgzNIKW7hRqIeyXZp04"
         ]
         ndk {
             // 添加项目所需CPU类型的最小集
@@ -24,9 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets{
-        main{
-            jniLibs.srcDirs=['libs']
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 

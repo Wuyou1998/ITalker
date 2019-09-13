@@ -24,12 +24,17 @@ public abstract class PresenterFragment<Presenter extends BaseContract.Presenter
 
     @Override
     public void showError(int str) {
-        Application.showToast(str);
+        //发生错误时优先使用占位布局
+        if (placeHolderView != null)
+            placeHolderView.triggerError(str);
+        else
+            Application.showToast(str);
     }
 
     @Override
     public void showLoading() {
-        //TODO
+        if (placeHolderView != null)
+            placeHolderView.triggerLoading();
     }
 
     @Override

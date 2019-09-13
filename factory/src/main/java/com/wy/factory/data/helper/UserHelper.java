@@ -10,6 +10,8 @@ import com.wy.factory.model.db.User;
 import com.wy.factory.net.Network;
 import com.wy.factory.net.RemoteService;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,5 +51,30 @@ public class UserHelper {
                 callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
+    }
+
+    //搜索
+    public static Call search(String name, final DataSource.Callback<List<UserCard>> callback) {
+        RemoteService service = Network.remote();
+        Call<RspModel<List<UserCard>>> call = service.userSearch(name);
+
+        call.enqueue(new Callback<RspModel<List<UserCard>>>() {
+            @Override
+            public void onResponse(Call<RspModel<List<UserCard>>> call, Response<RspModel<List<UserCard>>> response) {
+                RspModel<List<UserCard>> rspModel = response.body();
+                if (rspModel.success()) {
+                    callback.onDataLoad(rspModel.getResult());
+                } else {
+                    Factory.decodeRspCode(rspModel, callback);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<List<UserCard>>> call, Throwable t) {
+                callback.onDataNotAvailable(R.string.data_network_error);
+            }
+        });
+        //把当前调度者返回
+        return call;
     }
 }

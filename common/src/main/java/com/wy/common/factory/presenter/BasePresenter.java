@@ -16,8 +16,9 @@ public class BasePresenter<T extends BaseContract.View> implements BaseContract.
     /**
      * 设置一个view，子类可以复写
      *
-     * @param mView
+     * @param mView view
      */
+    @SuppressWarnings("unchecked")
     protected void setView(T mView) {
         this.mView = mView;
         mView.setPresenter(this);
@@ -40,6 +41,7 @@ public class BasePresenter<T extends BaseContract.View> implements BaseContract.
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void destroy() {
         if (mView != null) {
             mView.setPresenter(null);

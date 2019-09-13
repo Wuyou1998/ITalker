@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.wy.common.widget.convention.PlaceHolderView;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -21,6 +23,7 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends Fragment {
     protected View mRoot;
     protected Unbinder unbinder;
+    protected PlaceHolderView placeHolderView;
 
     @Override
     public void onAttach(Context context) {
@@ -82,4 +85,12 @@ public abstract class BaseFragment extends Fragment {
         return false;
     }
 
+    /**
+     * 设置占位符View
+     *
+     * @param placeHolderView 实现了PlaceHolderView接口的view
+     */
+    public void setPlaceHolderView(PlaceHolderView placeHolderView) {
+        this.placeHolderView = placeHolderView;
+    }
 }
