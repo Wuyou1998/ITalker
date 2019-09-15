@@ -1,7 +1,6 @@
 package com.wy.italker.fragments.search;
 
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,14 +15,22 @@ import com.wy.common.widget.EmptyView;
 import com.wy.common.widget.PortraitView;
 import com.wy.common.widget.recycler.RecyclerAdapter;
 import com.wy.factory.model.card.UserCard;
+import com.wy.factory.presenter.contact.FollowContract;
+import com.wy.factory.presenter.contact.FollowPresenter;
 import com.wy.factory.presenter.search.SearchContact;
 import com.wy.factory.presenter.search.SearchUserPresenter;
 import com.wy.italker.R;
 import com.wy.italker.activities.SearchActivity;
 
+import net.qiujuer.genius.ui.Ui;
+import net.qiujuer.genius.ui.compat.UiCompat;
+import net.qiujuer.genius.ui.drawable.LoadingCircleDrawable;
+import net.qiujuer.genius.ui.drawable.LoadingDrawable;
+
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class SearchUserFragment extends PresenterFragment<SearchContact.Presenter>
@@ -87,7 +94,7 @@ public class SearchUserFragment extends PresenterFragment<SearchContact.Presente
         placeHolderView.triggerOkOrEmpty(adapter.getItemCount() > 0);
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<UserCard> {
+    class ViewHolder extends RecyclerAdapter.ViewHolder<UserCard> implements FollowContract.View {
         @BindView(R.id.iv_avatar)
         PortraitView iv_avatar;
         @BindView(R.id.tv_name)
@@ -95,18 +102,69 @@ public class SearchUserFragment extends PresenterFragment<SearchContact.Presente
         @BindView(R.id.iv_follow)
         ImageView iv_follow;
 
+        private FollowContract.Presenter presenter;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            //将当前view和presenter绑定
+            new FollowPresenter(this);
         }
 
         @Override
         protected void onBind(UserCard userCard) {
-            Glide.with(getContext())
-                    .load(userCard.getAvatar())
-                    .centerCrop().into(iv_avatar);
-
+            iv_avatar.setup(Glide.with(getContext()), userCard);
             tv_name.setText(userCard.getName());
             iv_follow.setEnabled(!userCard.isFollow());
+        }
+
+        @OnClick(R.id.iv_follow)
+        void onFollowClick() {
+            // 发起关注
+            presenter.follow(mData.getId());
+        }
+
+        @Override
+        public void onFollowSucceed(UserCard userCard) {
+            // 更改当前界面状态
+            if (iv_follow.getDrawable() instanceof LoadingDrawable) {
+                ((LoadingDrawable) iv_follow.getDrawable()).stop();
+                // 设置为默认的
+                iv_follow.setImageResource(R.drawable.sel_opt_done_add);
+            }
+            // 发起更新
+            updateData(userCard);
+        }
+
+        @Override
+        public void showError(int str) {
+            // 更改当前界面状态
+            if (iv_follow.getDrawable() instanceof LoadingDrawable) {
+                // 失败则停止动画，并且显示一个圆圈
+                LoadingDrawable drawable = (LoadingDrawable) iv_follow.getDrawable();
+                drawable.setProgress(1);
+                drawable.stop();
+            }
+        }
+
+        @Override
+        public void showLoading() {
+            int minSize = (int) Ui.dipToPx(getResources(), 22);
+            int maxSize = (int) Ui.dipToPx(getResources(), 30);
+            // 初始化一个圆形的动画的Drawable
+            LoadingDrawable drawable = new LoadingCircleDrawable(minSize, maxSize);
+            drawable.setBackgroundColor(0);
+
+            int[] color = new int[]{UiCompat.getColor(getResources(), R.color.white_alpha_208)};
+            drawable.setForegroundColor(color);
+            // 设置进去
+            iv_follow.setImageDrawable(drawable);
+            // 启动动画
+            drawable.start();
+        }
+
+        @Override
+        public void setPresenter(FollowContract.Presenter presenter) {
+            this.presenter = presenter;
         }
     }
 }

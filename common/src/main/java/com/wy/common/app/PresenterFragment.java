@@ -2,6 +2,8 @@ package com.wy.common.app;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.wy.common.factory.presenter.BaseContract;
 
 /* 名称: ITalker.com.wy.common.app.PresenterFragment
@@ -17,7 +19,7 @@ public abstract class PresenterFragment<Presenter extends BaseContract.Presenter
     protected abstract Presenter initPresenter();
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         initPresenter();
     }

@@ -1,7 +1,10 @@
 package com.wy.italker.fragments.account;
 
+
 import android.content.Context;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 
 import com.wy.common.app.PresenterFragment;
 import com.wy.factory.presenter.account.LoginContract;
@@ -45,7 +48,7 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter> im
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         //拿到对Activity的引用
         accountTrigger = (AccountTrigger) context;
