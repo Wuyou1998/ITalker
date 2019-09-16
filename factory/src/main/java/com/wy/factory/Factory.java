@@ -9,11 +9,8 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.wy.common.app.Application;
 import com.wy.common.factory.data.DataSource;
 import com.wy.factory.data.group.GroupCenter;
-import com.wy.factory.data.group.GroupDispatcher;
 import com.wy.factory.data.message.MessageCenter;
-import com.wy.factory.data.message.MessageDispatcher;
 import com.wy.factory.data.user.UserCenter;
-import com.wy.factory.data.user.UserDispatcher;
 import com.wy.factory.model.api.RspModel;
 import com.wy.factory.persistence.Account;
 import com.wy.factory.utils.DBFlowExclusionStrategy;
@@ -166,18 +163,18 @@ public class Factory {
      *
      * @return 用户中心的规范接口
      */
-    public static UserCenter getUserCenter() {
-        return UserDispatcher.instance();
-    }
+//    public static UserCenter getUserCenter() {
+//        return UserDispatcher.instance();
+//    }
 
     /**
      * 获取一个消息中心的实现类
      *
      * @return 消息中心的规范接口
      */
-    public static MessageCenter getMessageCenter() {
-        return MessageDispatcher.instance();
-    }
+//    public static MessageCenter getMessageCenter() {
+//        return MessageDispatcher.instance();
+//    }
 
 
     /**
@@ -185,7 +182,7 @@ public class Factory {
      *
      * @return 群中心的规范接口
      */
-    public static GroupCenter getGroupCenter() {
-        return GroupDispatcher.instance();
-    }
+//    public static GroupCenter getGroupCenter() {
+//        return GroupDispatcher.instance();
+//    }
 }

@@ -143,6 +143,7 @@ public class UserHelper {
         }
         return user;
     }
+
     /**
      * 搜索一个用户，优先网络查询
      * 没有用然后再从本地缓存拉取
@@ -172,7 +173,8 @@ public class UserHelper {
             if (card != null) {
                 User user = card.build();
                 // 数据库的存储并通知
-                Factory.getUserCenter().dispatch(card);
+                // Factory.getUserCenter().dispatch(card);
+                user.save();
                 return user;
             }
 
