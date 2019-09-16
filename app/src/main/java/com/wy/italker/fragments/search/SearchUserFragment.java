@@ -20,6 +20,7 @@ import com.wy.factory.presenter.contact.FollowPresenter;
 import com.wy.factory.presenter.search.SearchContact;
 import com.wy.factory.presenter.search.SearchUserPresenter;
 import com.wy.italker.R;
+import com.wy.italker.activities.PersonalActivity;
 import com.wy.italker.activities.SearchActivity;
 
 import net.qiujuer.genius.ui.Ui;
@@ -115,6 +116,16 @@ public class SearchUserFragment extends PresenterFragment<SearchContact.Presente
             iv_avatar.setup(Glide.with(getContext()), userCard);
             tv_name.setText(userCard.getName());
             iv_follow.setEnabled(!userCard.isFollow());
+        }
+
+        @OnClick(R.id.iv_avatar)
+        void onAvatarClick() {
+            //跳转到个人信息界面
+            PersonalActivity.show(getContext(), mData.getId());
+        }
+        @OnClick(R.id.tv_name)
+        void onNameClick(){
+            onAvatarClick();
         }
 
         @OnClick(R.id.iv_follow)

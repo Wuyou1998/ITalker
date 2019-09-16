@@ -45,6 +45,6 @@ dependencies {
     // Lame 录音 MP3 转码器
     implementation "net.qiujuer.lame:lame:$rootProject.ext.lameVersion"
     implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleImageViewVwesion"
-    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
+    api "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     implementation project(path: ':lang')
 }

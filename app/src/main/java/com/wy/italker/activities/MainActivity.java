@@ -118,12 +118,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         Menu menu = nbv_navigation.getMenu();
         //触发点击 home
         menu.performIdentifierAction(R.id.action_home, 0);
+        //初始化头像
+        iv_avatar.setup(Glide.with(this),Account.getUser());
 
     }
 
     @OnClick(R.id.iv_avatar)
     void onAvatarClick() {
-        AccountActivity.show(this);
+//        AccountActivity.show(this);
+        PersonalActivity.show(this, Account.getUserId());
     }
 
     @OnClick(R.id.f_btn_action)

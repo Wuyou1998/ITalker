@@ -19,4 +19,7 @@ public class Common {
     public static final String ALI_ACCESS_KEY_SECRET = "JGZvrrVDfpyPPPLGurku0THD6LR6iL";
     public static final String ALI_END_POINT = "http://oss-cn-beijing.aliyuncs.com";
     public static final String ALI_BUCKET_NAME = "i-talker-wuyou";
+
+    //最大上传图片大小
+    public static final long MAX_UPLOAD_IMAGE_LENGTH = 860 * 1024;
 }

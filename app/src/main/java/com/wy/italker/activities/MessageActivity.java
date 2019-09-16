@@ -13,7 +13,7 @@ public class MessageActivity extends BaseActivity {
      * @param context context
      */
     public static void show(Context context) {
-        context.startActivity(new Intent(context, MainActivity.class));
+        context.startActivity(new Intent(context, MessageActivity.class));
     }
 
     @Override

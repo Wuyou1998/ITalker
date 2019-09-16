@@ -56,12 +56,10 @@ public class SearchActivity extends ToolbarActivity {
         //显示对应的Fragment
         Fragment fragment;
         if (type == TYPE_USER) {
-            setTitle(R.string.title_search_user);
             SearchUserFragment searchUserFragment = new SearchUserFragment();
             fragment = searchUserFragment;
             searchFragment = searchUserFragment;
         } else {
-            setTitle(R.string.title_search_group);
             SearchGroupFragment searchGroupFragment = new SearchGroupFragment();
             fragment = searchGroupFragment;
             searchFragment = searchGroupFragment;

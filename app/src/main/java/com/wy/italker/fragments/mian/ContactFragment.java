@@ -18,10 +18,12 @@ import com.wy.factory.presenter.contact.ContactContract;
 import com.wy.factory.presenter.contact.ContactPresenter;
 import com.wy.italker.R;
 import com.wy.italker.activities.MessageActivity;
+import com.wy.italker.activities.PersonalActivity;
 
 import java.util.Objects;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class ContactFragment extends PresenterFragment<ContactContract.Presenter>
@@ -99,6 +101,11 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+        }
+        @OnClick(R.id.iv_avatar)
+        void onAvatarClick() {
+            //跳转到个人信息界面
+            PersonalActivity.show(getContext(), mData.getId());
         }
 
         @Override

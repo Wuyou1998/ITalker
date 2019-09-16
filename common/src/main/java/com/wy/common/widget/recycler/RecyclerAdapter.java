@@ -86,6 +86,10 @@ public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<Recycle
         return mDataList.size();
     }
 
+    public List<Data> getItems() {
+        return mDataList;
+    }
+
     /**
      * 复写默认的布局类型返回
      *
@@ -258,7 +262,7 @@ public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<Recycle
         }
     }
 
-    public static abstract class AdapterListenerImpl<Data> implements AdapterListener<Data>{
+    public static abstract class AdapterListenerImpl<Data> implements AdapterListener<Data> {
 
         @Override
         public void onItemClick(ViewHolder viewHolder, Data data) {
