@@ -93,8 +93,9 @@ public class AccountHelper {
                 //获取到我的信息
                 User user = accountRspModel.getUser();
                 //数据库写入和缓存绑定，然后返回
+                DbHelper.save(User.class, user);
                 //第一种保存方式
-                user.save();
+                //user.save();
                 //第二种通过 ModelAdapter
                     /*
                         FlowManager.getModelAdapter(User.class).save(user);

@@ -2,6 +2,7 @@ package com.wy.factory.data.helper;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.wy.common.factory.data.DataSource;
+import com.wy.common.utils.CollectionUtil;
 import com.wy.factory.Factory;
 import com.wy.factory.R;
 import com.wy.factory.model.api.RspModel;
@@ -37,8 +38,8 @@ public class UserHelper {
                 if (rspModel.success()) {
                     UserCard userCard = rspModel.getResult();
                     //数据库的存储操作，需要把UserCard转换为User
-                    User user = userCard.build();
-                    user.save();
+                    //唤起进行保存的操作
+                    Factory.getUserCenter().dispatch(userCard);
                     //返回成功
                     callback.onDataLoad(userCard);
                 } else {
@@ -91,10 +92,8 @@ public class UserHelper {
                 RspModel<UserCard> rspModel = response.body();
                 if (rspModel.success()) {
                     UserCard userCard = rspModel.getResult();
-                    User user = userCard.build();
-                    user.save();
-                    //TODO 唤起进行保存的操作
-                    //Factory.getUserCenter().dispatch(userCard);
+                    //唤起进行保存的操作
+                    Factory.getUserCenter().dispatch(userCard);
                     // 返回数据
                     callback.onDataLoad(userCard);
                 } else {
@@ -110,7 +109,9 @@ public class UserHelper {
     }
 
     //刷新联系人
-    public static void refreshContacts(final DataSource.Callback<List<UserCard>> callback) {
+    //不需要callback，直接存储到数据库，并通过数据库观察者进行通知界面刷新
+    //界面更新时进行对比，差异更新
+    public static void refreshContacts() {
         RemoteService service = Network.remote();
         Call<RspModel<List<UserCard>>> call = service.userContacts();
 
@@ -119,15 +120,20 @@ public class UserHelper {
             public void onResponse(Call<RspModel<List<UserCard>>> call, Response<RspModel<List<UserCard>>> response) {
                 RspModel<List<UserCard>> rspModel = response.body();
                 if (rspModel.success()) {
-                    callback.onDataLoad(rspModel.getResult());
+                    //拿到集合
+                    List<UserCard> cards = rspModel.getResult();
+                    if (cards == null || cards.size() == 0) {
+                        return;
+                    }
+                    Factory.getUserCenter().dispatch(CollectionUtil.toArray(cards, UserCard.class));
                 } else {
-                    Factory.decodeRspCode(rspModel, callback);
+                    Factory.decodeRspCode(rspModel, null);
                 }
             }
 
             @Override
             public void onFailure(Call<RspModel<List<UserCard>>> call, Throwable t) {
-                callback.onDataNotAvailable(R.string.data_network_error);
+                //失败时直接无视错误
             }
         });
     }
@@ -173,8 +179,7 @@ public class UserHelper {
             if (card != null) {
                 User user = card.build();
                 // 数据库的存储并通知
-                // Factory.getUserCenter().dispatch(card);
-                user.save();
+                Factory.getUserCenter().dispatch(card);
                 return user;
             }
 

@@ -15,7 +15,7 @@ import java.io.File;
  * 时间: 2019/9/4,15:11
  * 描述: 基础Application
  */
-public class Application extends android.app.Application {
+public abstract class Application extends android.app.Application {
     private static Application instance;
 
     @Override

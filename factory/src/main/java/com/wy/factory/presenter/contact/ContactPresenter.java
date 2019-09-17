@@ -50,30 +50,22 @@ public class ContactPresenter extends BasePresenter<ContactContract.View>
                     }
                 }).execute();
         //加载网络数据
-        UserHelper.refreshContacts(new DataSource.Callback<List<UserCard>>() {
-            @Override
-            public void onDataNotAvailable(int strRes) {
-                //网络刷新失败，但是本地有数据，忽略错误
-            }
+        UserHelper.refreshContacts();
 
-            @Override
-            public void onDataLoad(final List<UserCard> userCards) {
-                final List<User> users = new ArrayList<>();
-                for (UserCard userCard : userCards) {
-                    users.add(userCard.build());
-                }
-                //数据放到事务中，保存数据库
-                DatabaseDefinition databaseDefinition = FlowManager.getDatabase(AppDatabase.class);
-                databaseDefinition.beginTransactionAsync(new ITransaction() {
-                    @Override
-                    public void execute(DatabaseWrapper databaseWrapper) {
-                        FlowManager.getModelAdapter(User.class).saveAll(users);
-                    }
-                }).execute();
-                List<User> old = getView().getRecyclerAdapter().getItems();
-                diff(users, old);
-            }
-        });
+//        final List<User> users = new ArrayList<>();
+//        for (UserCard userCard : userCards) {
+//            users.add(userCard.build());
+//        }
+//        //数据放到事务中，保存数据库
+//        DatabaseDefinition databaseDefinition = FlowManager.getDatabase(AppDatabase.class);
+//        databaseDefinition.beginTransactionAsync(new ITransaction() {
+//            @Override
+//            public void execute(DatabaseWrapper databaseWrapper) {
+//                FlowManager.getModelAdapter(User.class).saveAll(users);
+//            }
+//        }).execute();
+//        List<User> old = getView().getRecyclerAdapter().getItems();
+//        diff(users, old);
 
         //TODO 关注后没有刷新联系人，从网络刷新或者从数据库刷新刷新的是全局，本地和网络在显示时有可能冲突
 
