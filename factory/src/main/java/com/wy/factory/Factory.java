@@ -1,5 +1,7 @@
 package com.wy.factory;
 
+import android.util.Log;
+
 import androidx.annotation.StringRes;
 
 import com.google.gson.Gson;
@@ -14,7 +16,12 @@ import com.wy.factory.data.message.MessageCenter;
 import com.wy.factory.data.message.MessageDispatcher;
 import com.wy.factory.data.user.UserCenter;
 import com.wy.factory.data.user.UserDispatcher;
+import com.wy.factory.model.api.PushModel;
 import com.wy.factory.model.api.RspModel;
+import com.wy.factory.model.card.GroupCard;
+import com.wy.factory.model.card.GroupMemberCard;
+import com.wy.factory.model.card.MessageCard;
+import com.wy.factory.model.card.UserCard;
 import com.wy.factory.persistence.Account;
 import com.wy.factory.utils.DBFlowExclusionStrategy;
 
@@ -27,6 +34,7 @@ import java.util.concurrent.Executors;
  * 描述: 一些工厂方法
  */
 public class Factory {
+    private static final String TAG = "Factory";
     //单例模式
     private static volatile Factory instance;
     //全局的线程池
@@ -146,7 +154,54 @@ public class Factory {
      * @param message 信息
      */
     public static void dispatchPush(String message) {
-        //TODO
+        //首先检查登录状态
+        if (!Account.isLogin())
+            return;
+        PushModel pushModel = PushModel.decode(message);
+        if (pushModel == null) {
+            return;
+        }
+        Log.e(TAG, "dispatchPush: " + pushModel.toString());
+        //对推送集合进行遍历
+        for (PushModel.Entity entity : pushModel.getEntities()) {
+            switch (entity.type) {
+                case PushModel.ENTITY_TYPE_LOGOUT: {
+                    instance.logout();
+                    //退出情况下直接返回，并且不可继续
+                    break;
+                }
+                case PushModel.ENTITY_TYPE_MESSAGE: {
+                    //普通消息
+                    MessageCard card = getGson().fromJson(entity.content, MessageCard.class);
+                    getMessageCenter().dispatch(card);
+                    break;
+                }
+                case PushModel.ENTITY_TYPE_ADD_FRIEND: {
+                    //添加朋友
+                    UserCard card = getGson().fromJson(entity.content, UserCard.class);
+                    getUserCenter().dispatch(card);
+                    break;
+                }
+                case PushModel.ENTITY_TYPE_ADD_GROUP: {
+                    //添加群
+                    GroupCard card = getGson().fromJson(entity.content, GroupCard.class);
+                    getGroupCenter().dispatch(card);
+                    break;
+                }
+                case PushModel.ENTITY_TYPE_MODIFY_GROUP_MEMBERS:
+                case PushModel.ENTITY_TYPE_ADD_GROUP_MEMBERS: {
+                    //群成员变更，回来的是一个群成员的列表
+                    GroupMemberCard card = getGson().fromJson(entity.content, GroupMemberCard.class);
+                    getGroupCenter().dispatch(card);
+                    break;
+                }
+                case PushModel.ENTITY_TYPE_EXIT_GROUP_MEMBERS: {
+                    //TODO 成员退出的推送
+
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -188,4 +243,12 @@ public class Factory {
     public static GroupCenter getGroupCenter() {
         return GroupDispatcher.getInstance();
     }
+
+    /**
+     * 收到账户退出的消息需要进行账户退出重新登录
+     */
+    private void logout() {
+
+    }
+
 }

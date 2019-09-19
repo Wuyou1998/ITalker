@@ -3,12 +3,12 @@ package com.wy.factory.presenter.contact;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.wy.common.factory.data.DataSource;
-import com.wy.common.factory.presenter.BaseRecyclerPresenter;
 import com.wy.common.widget.recycler.RecyclerAdapter;
 import com.wy.factory.data.helper.UserHelper;
 import com.wy.factory.data.user.ContactDataSource;
 import com.wy.factory.data.user.ContactRepository;
 import com.wy.factory.model.db.User;
+import com.wy.factory.presenter.BaseSourcePresenter;
 import com.wy.factory.utils.DiffUiDataCallback;
 
 import java.util.List;
@@ -18,29 +18,19 @@ import java.util.List;
  * 时间: 2019/9/15,14:49
  * 描述: ContactPresenter
  */
-public class ContactPresenter extends BaseRecyclerPresenter<ContactContract.View, User>
+public class ContactPresenter extends BaseSourcePresenter<User, User, ContactContract.View, ContactDataSource>
         implements ContactContract.Presenter, DataSource.SuccessCallback<List<User>> {
-    private ContactDataSource source;
 
     public ContactPresenter(ContactContract.View mView) {
-        super(mView);
-        source = new ContactRepository();
+        //初始化数据仓库
+        super(new ContactRepository(), mView);
     }
 
     @Override
     public void start() {
         super.start();
-        //进行本地的数据加载，并添加监听
-        source.load(this);
         //加载网络数据
         UserHelper.refreshContacts();
-    }
-
-
-    @Override
-    public void destroy() {
-        //当界面销毁时，应当把数据监听进行销毁
-        source.dispose();
     }
 
     @Override

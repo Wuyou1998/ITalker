@@ -3,9 +3,7 @@ package com.wy.factory.model.db;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.wy.common.factory.model.Author;
-import com.wy.factory.utils.DiffUiDataCallback;
 
 import java.util.Date;
 import java.util.Objects;
@@ -16,7 +14,7 @@ import java.util.Objects;
  * 描述: bean user
  */
 @Table(database = AppDatabase.class)
-public class User extends BaseModel implements Author, DiffUiDataCallback.UiDataDiffer<User> {
+public class User extends BaseDbModel<User> implements Author {
 
     public static final int SEX_MAN = 1;
     public static final int SEX_WOMAN = 2;
