@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wy.common.widget.MessageLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".fragments.message.ChatUserFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/trans">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/ctl_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/app_name"
+                app:toolbarId="@+id/toolbar"
+                app:expandedTitleGravity="bottom|center_horizontal"
+                app:expandedTitleMarginBottom="@dimen/len_16"
+                app:expandedTitleTextAppearance="@style/TextAppearance.Title"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.Title"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:contentScrim="@color/colorAccent">
+
+                <ImageView
+                    android:id="@+id/iv_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/len_128"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/default_banner_chat"
+                    app:layout_anchor="@+id/abl_app_bar"
+                    app:layout_anchorGravity="center"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:paddingTop="@dimen/statusBarSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/actionBarWithStatusBarSize"
+                    app:layout_collapseMode="pin" />
+
+                <com.wy.common.widget.PortraitView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="@dimen/portraitSize"
+                    android:layout_height="@dimen/portraitSize"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/default_portrait"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="1dp"
+                    app:civ_border_overlay="true"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.3" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/len_8"
+            android:paddingBottom="@dimen/len_8"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/white_alpha_224"
+        android:elevation="@dimen/len_2"
+        android:outlineProvider="bounds">
+
+        <ImageView
+            android:id="@+id/iv_face"
+            android:layout_width="@dimen/len_44"
+            android:layout_height="@dimen/len_44"
+            android:padding="@dimen/len_8"
+            android:src="@drawable/ic_emoji"
+            android:tint="@color/textPrimary"
+            android:foreground="@drawable/ic_touch_fg"
+            android:contentDescription="@string/app_name" />
+
+        <EditText
+            android:id="@+id/edt_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/label_chat_edit_hint"
+            android:lineSpacingExtra="0dp"
+            android:lineSpacingMultiplier="1"
+            android:maxHeight="@dimen/len_68"
+            android:minHeight="@dimen/len_44"
+            android:padding="@dimen/len_4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textPrimary"
+            android:textColorHint="@color/textSecond"
+            android:textCursorDrawable="@drawable/ic_cursor"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/iv_record"
+            android:layout_width="@dimen/len_44"
+            android:layout_height="@dimen/len_44"
+            android:padding="@dimen/len_8"
+            android:src="@drawable/ic_record"
+            android:tint="@color/textPrimary"
+            android:foreground="@drawable/ic_touch_fg"
+            android:contentDescription="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/iv_submit"
+            android:layout_width="@dimen/len_44"
+            android:layout_height="@dimen/len_44"
+            android:padding="@dimen/len_8"
+            android:src="@drawable/ic_submit"
+            android:tint="@color/textPrimary"
+            android:foreground="@drawable/ic_touch_fg"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
+
+</com.wy.common.widget.MessageLayout>

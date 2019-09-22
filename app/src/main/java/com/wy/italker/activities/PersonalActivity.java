@@ -105,7 +105,7 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
         User user = mPresenter.getUserPersonal();
         if (user == null)
             return;
-        MessageActivity.show(this);
+        MessageActivity.show(this, user);
     }
 
 

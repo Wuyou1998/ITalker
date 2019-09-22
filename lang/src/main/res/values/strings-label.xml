@@ -40,7 +40,7 @@
     <string name="label_group_member_add_invalid">没有新增加的成员!</string>
     <string name="label_group_create_succeed">创建群成功!</string>
 
-    <string name="label_chat_edit_hint">Type something to send…</string>
+    <string name="label_chat_edit_hint">快和ta聊聊吧~</string>
 
     <string name="toast_audio_play_error">播放失败！</string>
     <string name="toast_audio_record_time_short_error">录音时间太短!</string>

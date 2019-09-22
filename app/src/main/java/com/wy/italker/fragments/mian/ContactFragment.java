@@ -60,7 +60,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder viewHolder, User user) {
                 //跳转到聊天界面
-                MessageActivity.show(Objects.requireNonNull(getContext()));
+                MessageActivity.show(Objects.requireNonNull(getContext()),user);
             }
         });
         //初始化占位布局

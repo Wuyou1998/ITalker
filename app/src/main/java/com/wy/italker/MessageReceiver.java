@@ -11,6 +11,8 @@ import com.wy.factory.Factory;
 import com.wy.factory.data.helper.AccountHelper;
 import com.wy.factory.persistence.Account;
 
+import java.util.Objects;
+
 /* 名称: ITalker.com.wy.italker.MessageReceiver
  * 用户: _VIEW
  * 时间: 2019/9/11,15:33
@@ -24,7 +26,7 @@ public class MessageReceiver extends BroadcastReceiver {
         if (intent == null)
             return;
         Bundle bundle = intent.getExtras();
-        switch (bundle.getInt(PushConsts.CMD_ACTION)) {
+        switch (Objects.requireNonNull(bundle).getInt(PushConsts.CMD_ACTION)) {
             case PushConsts.GET_CLIENTID:
                 //当Id初始化的时候,获取设备ID
                 Log.e(TAG, "GET_CLIENTID: " + bundle.toString());
@@ -32,12 +34,13 @@ public class MessageReceiver extends BroadcastReceiver {
                 break;
             case PushConsts.GET_MSG_DATA:
                 //常规消息送达
-                Log.e(TAG, "GET_MSG_DATA: " + bundle.toString());
                 byte[] payload = bundle.getByteArray("payload");
                 if (payload != null) {
                     String message = new String(payload);
                     onMessageArrived(message);
+                    Log.e(TAG, "GET_MSG_DATA: " + message);
                 }
+                break;
             default:
                 Log.e(TAG, "OTHERS: " + bundle.toString());
                 break;
