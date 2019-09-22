@@ -6,15 +6,27 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.wy.common.app.BaseFragment;
+import com.wy.common.widget.PortraitView;
 import com.wy.common.widget.adapter.TextWatcherAdapter;
+import com.wy.common.widget.recycler.RecyclerAdapter;
+import com.wy.factory.model.db.Message;
+import com.wy.factory.model.db.User;
+import com.wy.factory.persistence.Account;
 import com.wy.italker.R;
+
+import net.qiujuer.genius.ui.compat.UiCompat;
+import net.qiujuer.genius.ui.widget.Loading;
 
 import java.util.Objects;
 
@@ -110,5 +122,143 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
 
     void onMoreActionClick() {
         //TODO
+    }
+
+    private class Adapter extends RecyclerAdapter<Message> {
+
+        @Override
+        protected int getItemViewType(int position, Message message) {
+            boolean isRight = Objects.equals(message.getSender().getId(), Account.getAccount());
+            switch (message.getType()) {
+                case Message.TYPE_AUDIO:
+                    return isRight ? R.layout.cell_chat_audio_right : R.layout.cell_chat_audio_left;
+                case Message.TYPE_PIC:
+                    return isRight ? R.layout.cell_chat_pic_right : R.layout.cell_chat_pic_left;
+                //默认文字内容,我发送的在右边，收到的在左边
+                default:
+                    return isRight ? R.layout.cell_chat_text_right : R.layout.cell_chat_text_right;
+            }
+        }
+
+        @Override
+        protected ViewHolder<Message> onCreateViewHolder(View root, int viewType) {
+            switch (viewType) {
+//                case R.layout.cell_chat_text_right:
+//                case R.layout.cell_chat_text_left:
+//                    return new TextHolder(root);
+                case R.layout.cell_chat_audio_right:
+                case R.layout.cell_chat_audio_left:
+                    return new AudioHolder(root);
+                case R.layout.cell_chat_pic_right:
+                case R.layout.cell_chat_pic_left:
+                    return new PicHolder(root);
+                default:
+                    //默认情况下返回的就是Text类型的Holder进行处理
+                    return new TextHolder(root);
+            }
+        }
+    }
+
+    //holder 基类
+    class BaseHolder extends RecyclerAdapter.ViewHolder<Message> {
+        @BindView(R.id.iv_avatar)
+        PortraitView iv_avatar;
+        //允许为空，左边没有，右边有
+        @Nullable
+        @BindView(R.id.loading)
+        Loading loading;
+
+        public BaseHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void onBind(Message message) {
+            User sender = message.getSender();
+            //进行数据加载
+            sender.load();
+            iv_avatar.setup(Glide.with(getContext()), sender);
+            if (loading != null) {
+                int status = message.getStatus();
+                //当前布局应该是在右边
+                if (status == Message.STATUS_DONE) {
+                    loading.stop();
+                    loading.setVisibility(View.GONE);
+                } else if (status == Message.STATUS_CREATED) {
+                    //正在发送
+                    loading.setVisibility(View.VISIBLE);
+                    loading.setProgress(0);
+                    loading.setForegroundColor(UiCompat.getColor(getResources(), R.color.colorAccent));
+                    loading.start();
+                } else if (status == Message.STATUS_FAILED) {
+                    //发送失败,点击头像重新发送
+                    loading.setVisibility(View.VISIBLE);
+                    loading.stop();
+                    loading.setProgress(1);
+                    loading.setForegroundColor(UiCompat.getColor(getResources(), R.color.red_400));
+                }
+                //只有当前状态是发送失败，才允许点击
+                iv_avatar.setEnabled(status == Message.STATUS_FAILED);
+            }
+
+        }
+
+        @OnClick(R.id.iv_avatar)
+        void onRePushClick() {
+            //重新发送
+            if (loading != null) {
+                //必须是右边的才有可能重新发送
+                //TODO
+            }
+        }
+    }
+
+    //文字holder
+    class TextHolder extends BaseHolder {
+        @BindView(R.id.tv_content)
+        TextView tv_content;
+
+        public TextHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void onBind(Message message) {
+            super.onBind(message);
+            //内容设置到布局
+            tv_content.setText(message.getContent());
+        }
+    }
+
+    //audio holder
+    class AudioHolder extends BaseHolder {
+        @BindView(R.id.tv_content)
+        TextView tv_content;
+
+        public AudioHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void onBind(Message message) {
+            super.onBind(message);
+           //TODO
+        }
+    }
+
+    //图片holder
+    class PicHolder extends BaseHolder {
+        @BindView(R.id.tv_content)
+        TextView tv_content;
+
+        public PicHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void onBind(Message message) {
+            super.onBind(message);
+            //TODO
+        }
     }
 }
