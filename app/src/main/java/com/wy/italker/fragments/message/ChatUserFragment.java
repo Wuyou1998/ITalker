@@ -3,11 +3,19 @@ package com.wy.italker.fragments.message;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.wy.common.widget.PortraitView;
+import com.wy.factory.model.db.User;
+import com.wy.factory.presenter.message.ChatContact;
+import com.wy.factory.presenter.message.ChatUserPresenter;
 import com.wy.italker.R;
 import com.wy.italker.activities.PersonalActivity;
 
@@ -17,10 +25,10 @@ import butterknife.OnClick;
 /**
  * 用户聊天界面
  */
-public class ChatUserFragment extends ChatFragment {
+public class ChatUserFragment extends ChatFragment<User> implements ChatContact.UserView {
     private MenuItem menuItem;
     @BindView(R.id.iv_avatar)
-    ImageView iv_avatar;
+    PortraitView iv_avatar;
 
     @Override
     protected int getContentLayoutId() {
@@ -40,6 +48,19 @@ public class ChatUserFragment extends ChatFragment {
         });
         //拿到菜单Icon
         menuItem = toolbar.getMenu().findItem(R.id.action_person);
+    }
+
+    @Override
+    protected void initView(View view) {
+        super.initView(view);
+        Glide.with(getContext()).load(R.mipmap.default_banner_chat)
+                .centerCrop()
+                .into(new ViewTarget<CollapsingToolbarLayout, GlideDrawable>(ctl_app_bar) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        this.view.setContentScrim(resource.getCurrent());
+                    }
+                });
     }
 
     //进行高度的综合运算，透明我们的头像和Icon
@@ -95,5 +116,18 @@ public class ChatUserFragment extends ChatFragment {
     @OnClick(R.id.iv_avatar)
     void onAvatarClick() {
         PersonalActivity.show(getContext(), mReceiverId);
+    }
+
+    @Override
+    protected ChatContact.Presenter initPresenter() {
+        //初始化Presenter
+        return new ChatUserPresenter(this, mReceiverId);
+    }
+
+    @Override
+    public void onInit(User user) {
+        //对和你聊天的朋友进行的初始化操作
+        iv_avatar.setup(Glide.with(getContext()), user);
+        ctl_app_bar.setTitle(user.getName());
     }
 }

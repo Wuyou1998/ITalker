@@ -29,9 +29,9 @@
                 app:expandedTitleMarginBottom="@dimen/len_16"
                 app:expandedTitleTextAppearance="@style/TextAppearance.Title"
                 app:collapsedTitleTextAppearance="@style/TextAppearance.Title"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:contentScrim="@color/colorAccent">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
+                <!--app:contentScrim="@color/colorAccent"-->
                 <ImageView
                     android:id="@+id/iv_header"
                     android:layout_width="match_parent"

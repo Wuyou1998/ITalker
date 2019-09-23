@@ -34,6 +34,14 @@ public abstract class PresenterFragment<Presenter extends BaseContract.Presenter
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (presenter != null) {
+            presenter.destroy();
+        }
+    }
+
+    @Override
     public void showLoading() {
         if (placeHolderView != null)
             placeHolderView.triggerLoading();
