@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import com.wy.common.app.BaseActivity;
 import com.wy.common.factory.model.Author;
 import com.wy.factory.model.db.Group;
+import com.wy.factory.model.db.Message;
+import com.wy.factory.model.db.Session;
 import com.wy.italker.R;
 import com.wy.italker.fragments.message.ChatGroupFragment;
 import com.wy.italker.fragments.message.ChatUserFragment;
@@ -52,6 +54,22 @@ public class MessageActivity extends BaseActivity {
         Intent intent = new Intent(context, MessageActivity.class);
         intent.putExtra(KEY_RECEIVER_ID, group.getId());
         intent.putExtra(KEY_RECEIVER_IS_GROUP, true);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 通过session发起聊天
+     *
+     * @param context 上下文
+     * @param session session
+     */
+    public static void show(Context context, Session session) {
+        if (session == null || context == null || session.getId() == null) {
+            return;
+        }
+        Intent intent = new Intent(context, MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID, session.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP, session.getReceiverType() == Message.RECEIVER_TYPE_GROUP);
         context.startActivity(intent);
     }
 
