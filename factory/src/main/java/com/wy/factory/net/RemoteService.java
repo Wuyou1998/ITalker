@@ -92,7 +92,7 @@ public interface RemoteService {
     Call<RspModel<List<GroupCard>>> groupSearch(@Path(value = "name", encoded = true) String name);
 
     // 我的群的成员列表
-    @GET("group/{groupId}/member")
+    @GET("group/{groupId}/members")
     Call<RspModel<List<GroupMemberCard>>> groupMembers(@Path("groupId") String groupId);
 
     // 发送消息的接口
@@ -100,7 +100,7 @@ public interface RemoteService {
     Call<RspModel<MessageCard>> msgPush(@Body MsgCreateModel model);
 
     // 给群添加成员
-    @POST("group/{groupId}/member")
+    @POST("group/{groupId}/members")
     Call<RspModel<List<GroupMemberCard>>> groupMemberAdd(@Path("groupId") String groupId,
                                                          @Body GroupMemberAddModel model);
 }

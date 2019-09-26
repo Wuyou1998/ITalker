@@ -60,7 +60,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<View, ViewModel>
                 String url = uploadPicture(picture);
                 if (TextUtils.isEmpty(url))
                     return;
-                GroupCreateModel model = new GroupCreateModel(name, desc, picture, users);
+                GroupCreateModel model = new GroupCreateModel(name, desc, url, users);
                 GroupHelper.create(model, GroupCreatePresenter.this);
             }
         });

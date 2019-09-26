@@ -117,6 +117,7 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
         //提示成功
         hideLoading();
         Application.showToast(R.string.label_group_create_succeed);
+        finish();
     }
 
     @Override
