@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.search.SearchGroupFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/white"
+        android:paddingTop="@dimen/len_2"
+        android:paddingBottom="@dimen/len_2"
+        android:clipToPadding="false"
+        android:visibility="gone" />
+
+    <com.wy.common.widget.EmptyView
+        android:id="@+id/ev_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

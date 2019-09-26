@@ -8,9 +8,6 @@ import com.wy.factory.model.db.AppDatabase;
 
 /**
  * 用户基础信息的Model，可以和数据库进行查询
- *
- * @author qiujuer Email:qiujuer@live.cn
- * @version 1.0.0
  */
 @QueryModel(database = AppDatabase.class)
 public class UserSampleModel implements Author {

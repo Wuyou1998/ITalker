@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         //触发点击 home
         menu.performIdentifierAction(R.id.action_home, 0);
         //初始化头像
-        iv_avatar.setup(Glide.with(this),Account.getUser());
+        iv_avatar.setup(Glide.with(this), Account.getUser());
 
     }
 
@@ -133,8 +133,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     void onFBtnClick() {
         //浮动按钮点击时，当前页面如果是群，则打开创建群页面，否则打开添加联系人页面
         if (Objects.equals(navHelper.getCurrentTab().extra, R.string.title_group)) {
-            //TODO 群创建
-            SearchActivity.show(this, SearchActivity.TYPE_GROUP);
+            //打开群创建页面
+            GroupCreateActivity.show(this);
         } else if (Objects.equals(navHelper.getCurrentTab().extra, R.string.title_contact)) {
             SearchActivity.show(this, SearchActivity.TYPE_USER);
         }

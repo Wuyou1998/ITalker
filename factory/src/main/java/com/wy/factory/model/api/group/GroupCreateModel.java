@@ -10,7 +10,7 @@ public class GroupCreateModel {
     private String name;// 群名称
     private String description;// 群描述
     private String picture;// 群图片
-    private Set<String> users = new HashSet<>();
+    private Set<String> users;
 
     public GroupCreateModel(String name, String desc, String picture, Set<String> users) {
         this.name = name;

@@ -10,8 +10,10 @@ import com.wy.factory.model.api.user.UserUpdateModel;
 import com.wy.factory.model.card.UserCard;
 import com.wy.factory.model.db.User;
 import com.wy.factory.model.db.User_Table;
+import com.wy.factory.model.db.view.UserSampleModel;
 import com.wy.factory.net.Network;
 import com.wy.factory.net.RemoteService;
+import com.wy.factory.persistence.Account;
 
 import java.util.List;
 
@@ -188,5 +190,33 @@ public class UserHelper {
         }
 
         return null;
+    }
+
+    /**
+     * 获取联系人
+     */
+    public static List<User> getContact() {
+        //加载本地数据库数据
+        return SQLite.select().from(User.class)
+                .where(User_Table.isFollow.eq(true))
+                .and(User_Table.id.notEq(Account.getUserId()))
+                .orderBy(User_Table.name, true)
+                .limit(100)
+                .queryList();
+    }
+
+    /**
+     * 获取联系人列表，简单数据
+     */
+    public static List<UserSampleModel> getSimpleContact() {
+        //加载本地数据库数据
+        return SQLite.select(User_Table.id.withTable().as("id"),
+                User_Table.name.withTable().as("name"),
+                User_Table.avatar.withTable().as("avatar"))
+                .from(User.class)
+                .where(User_Table.isFollow.eq(true))
+                .and(User_Table.id.notEq(Account.getUserId()))
+                .orderBy(User_Table.name, true)
+                .queryCustomList(UserSampleModel.class);
     }
 }
