@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wy.common.widget.MessageLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    app:collapsedTitleTextAppearance="@style/TextAppearance.Title"
+    app:contentScrim="@color/colorAccent"
+    app:expandedTitleGravity="bottom|center_horizontal"
+    app:expandedTitleMarginBottom="@dimen/len_16"
+    app:expandedTitleTextAppearance="@style/TextAppearance.Title"
+    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+    app:title="@string/app_name"
+    app:toolbarId="@id/toolbar"
+    tools:context=".fragments.message.ChatUserFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/trans">
+            <!--顶部布局的占位-->
+            <ViewStub
+                android:id="@+id/vs_view_stub"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/len_8"
+            android:paddingBottom="@dimen/len_8"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/white_alpha_224"
+        android:elevation="@dimen/len_2"
+        android:outlineProvider="bounds">
+
+        <ImageView
+            android:id="@+id/iv_face"
+            android:layout_width="@dimen/len_44"
+            android:layout_height="@dimen/len_44"
+            android:padding="@dimen/len_8"
+            android:src="@drawable/ic_emoji"
+            android:tint="@color/textPrimary"
+            android:foreground="@drawable/ic_touch_fg"
+            android:contentDescription="@string/app_name" />
+
+        <EditText
+            android:id="@+id/edt_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/label_chat_edit_hint"
+            android:lineSpacingExtra="0dp"
+            android:lineSpacingMultiplier="1"
+            android:maxHeight="@dimen/len_68"
+            android:minHeight="@dimen/len_44"
+            android:padding="@dimen/len_4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textPrimary"
+            android:textColorHint="@color/textSecond"
+            android:textCursorDrawable="@drawable/ic_cursor"
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/iv_record"
+            android:layout_width="@dimen/len_44"
+            android:layout_height="@dimen/len_44"
+            android:padding="@dimen/len_8"
+            android:src="@drawable/ic_record"
+            android:tint="@color/textPrimary"
+            android:foreground="@drawable/ic_touch_fg"
+            android:contentDescription="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/iv_submit"
+            android:layout_width="@dimen/len_44"
+            android:layout_height="@dimen/len_44"
+            android:padding="@dimen/len_8"
+            android:src="@drawable/ic_submit"
+            android:tint="@color/textPrimary"
+            android:foreground="@drawable/ic_touch_fg"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
+
+</com.wy.common.widget.MessageLayout>

@@ -4,6 +4,9 @@ import com.wy.common.factory.presenter.BaseContract;
 import com.wy.factory.model.db.Group;
 import com.wy.factory.model.db.Message;
 import com.wy.factory.model.db.User;
+import com.wy.factory.model.db.view.MemberUserModel;
+
+import java.util.List;
 
 /* 名称: ITalker.com.wy.factory.presenter.message.ChatContact
  * 用户: _VIEW
@@ -38,6 +41,10 @@ public interface ChatContact {
 
     //群聊天的界面
     interface GroupView extends View<Group> {
+        //显示管理员菜单
+        void showAdminOption(boolean isAdmin);
 
+        //初始化成员信息
+        void onInitGroupMembers(List<MemberUserModel> members, long moreCount);
     }
 }

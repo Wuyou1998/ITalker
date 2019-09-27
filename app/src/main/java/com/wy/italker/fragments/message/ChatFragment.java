@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -66,9 +68,22 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         mReceiverId = bundle.getString(KEY_RECEIVER_ID);
     }
 
+    //得到顶部布局的id资源
+    @LayoutRes
+    protected abstract int getHeaderLayoutId();
+
+    @Override
+    protected final int getContentLayoutId() {
+        return R.layout.fragment_chat_common;
+    }
+
     @Override
     protected void initView(View view) {
-        super.initView(view);
+        //拿到占位布局,需要发生在super之前，防止控件绑定异常
+        ViewStub stub = view.findViewById(R.id.vs_view_stub);
+        stub.setLayoutResource(getHeaderLayoutId());
+        stub.inflate();
+        super.initView(view);//在这里进行控件绑定
         initToolbar();
         initAppBar();
         //RecyclerView基本设置

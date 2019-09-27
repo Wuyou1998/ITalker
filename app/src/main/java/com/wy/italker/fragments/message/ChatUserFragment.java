@@ -3,7 +3,9 @@ package com.wy.italker.fragments.message;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStub;
 
+import androidx.annotation.LayoutRes;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
@@ -25,15 +27,16 @@ import butterknife.OnClick;
 /**
  * 用户聊天界面
  */
-public class ChatUserFragment extends ChatFragment<User> implements ChatContact.UserView {
+public  class ChatUserFragment extends ChatFragment<User> implements ChatContact.UserView {
     private MenuItem menuItem;
     @BindView(R.id.iv_avatar)
     PortraitView iv_avatar;
 
     @Override
-    protected int getContentLayoutId() {
-        return R.layout.fragment_chat_user;
+    protected int getHeaderLayoutId() {
+        return R.layout.lay_chat_header_user;
     }
+
 
     @Override
     protected void initToolbar() {
@@ -49,6 +52,8 @@ public class ChatUserFragment extends ChatFragment<User> implements ChatContact.
         //拿到菜单Icon
         menuItem = toolbar.getMenu().findItem(R.id.action_person);
     }
+
+
 
     @Override
     protected void initView(View view) {

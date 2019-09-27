@@ -103,12 +103,6 @@ public class GroupFragment extends PresenterFragment<GroupContract.Presenter>
 
         }
 
-        @OnClick(R.id.iv_avatar)
-        void onAvatarClick() {
-            //跳转到个人信息界面
-            PersonalActivity.show(getContext(), mData.getId());
-        }
-
         @Override
         protected void onBind(Group group) {
             iv_avatar.setup(Glide.with(GroupFragment.this.getContext()), group.getPicture());
