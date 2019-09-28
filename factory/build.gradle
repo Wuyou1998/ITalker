@@ -27,6 +27,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':common')
+    implementation project(path: ':faceres')
     testImplementation 'junit:junit:4.12'
     implementation "com.aliyun.dpa:oss-android-sdk:$rootProject.ext.ossVersion"
     implementation "androidx.appcompat:appcompat:$rootProject.ext.appCompatVersion"

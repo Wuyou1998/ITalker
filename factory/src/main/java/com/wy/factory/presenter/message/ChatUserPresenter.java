@@ -24,4 +24,5 @@ public class ChatUserPresenter extends ChatPresenter<ChatContact.UserView> imple
         User receiver = UserHelper.findFromLocal(receiverId);
         getView().onInit(receiver);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.wy.factory.presenter.message;
 
+import android.text.TextUtils;
+
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.wy.factory.data.message.MessageDataSource;
@@ -43,13 +45,39 @@ public class ChatPresenter<View extends ChatContact.View>
     }
 
     @Override
-    public void pushAudio(String path) {
-        //TODO 发送语音
+    public void pushAudio(String path, long time) {
+        //发送语音
+        if (TextUtils.isEmpty(path)) {
+            return;
+        }
+
+        // 构建一个新的消息
+        MsgCreateModel model = new MsgCreateModel.Builder()
+                .receiver(receiverId, receiverType)
+                .content(path, Message.TYPE_AUDIO)
+                .attach(String.valueOf(time))
+                .build();
+
+        // 进行网络发送
+        MessageHelper.push(model);
     }
 
     @Override
     public void pushImages(String[] paths) {
-        //TODO 发送图片
+        //发送图片
+        if (paths == null || paths.length == 0)
+            return;
+        // 此时路径是本地的手机上的路径
+        for (String path : paths) {
+            // 构建一个新的消息
+            MsgCreateModel model = new MsgCreateModel.Builder()
+                    .receiver(receiverId, receiverType)
+                    .content(path, Message.TYPE_PIC)
+                    .build();
+
+            // 进行网络发送
+            MessageHelper.push(model);
+        }
     }
 
     @Override

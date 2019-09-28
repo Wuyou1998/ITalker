@@ -2,6 +2,8 @@ package com.wy.italker.fragments.message;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
@@ -20,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.wy.common.app.PresenterFragment;
+import com.wy.common.face.Face;
 import com.wy.common.widget.PortraitView;
 import com.wy.common.widget.adapter.TextWatcherAdapter;
 import com.wy.common.widget.recycler.RecyclerAdapter;
@@ -28,10 +31,15 @@ import com.wy.factory.model.db.User;
 import com.wy.factory.persistence.Account;
 import com.wy.factory.presenter.message.ChatContact;
 import com.wy.italker.R;
+import com.wy.italker.fragments.panel.PanelFragment;
 
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.widget.Loading;
+import net.qiujuer.widget.airpanel.AirPanel;
+import net.qiujuer.widget.airpanel.Util;
 
+import java.io.File;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -46,7 +54,7 @@ import static com.wy.italker.activities.MessageActivity.KEY_RECEIVER_ID;
  */
 public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatContact.Presenter>
         implements AppBarLayout.OnOffsetChangedListener,
-        ChatContact.View<InitModel> {
+        ChatContact.View<InitModel>, PanelFragment.PanelCallback {
     protected String mReceiverId;
     protected Adapter adapter;
     @BindView(R.id.toolbar)
@@ -61,6 +69,9 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
     EditText edt_content;
     @BindView(R.id.iv_submit)
     ImageView iv_submit;
+    //控制底部面板与软键盘过渡的控件
+    private AirPanel.Boss boss;
+    private PanelFragment panelFragment;
 
     @Override
     protected void initArgs(Bundle bundle) {
@@ -84,6 +95,17 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         stub.setLayoutResource(getHeaderLayoutId());
         stub.inflate();
         super.initView(view);//在这里进行控件绑定
+
+        //初始化面板操作
+        boss = view.findViewById(R.id.ll_container);
+
+        boss.setup(() -> {
+            //请求隐藏软键盘
+            Util.hideKeyboard(edt_content);
+        });
+
+        panelFragment = (PanelFragment) getChildFragmentManager().findFragmentById(R.id.frag_panel);
+        Objects.requireNonNull(panelFragment).setup(this);
         initToolbar();
         initAppBar();
         //RecyclerView基本设置
@@ -130,12 +152,15 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
 
     @OnClick(R.id.iv_face)
     void onFaceClick() {
-        //TODO
+        //请求打开即可
+        boss.openPanel();
+        panelFragment.showFace();
     }
 
     @OnClick(R.id.iv_record)
     void onRecordClick() {
-        //TODO
+        boss.openPanel();
+        panelFragment.showRecord();
     }
 
     @OnClick(R.id.iv_submit)
@@ -150,8 +175,9 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         }
     }
 
-    void onMoreActionClick() {
-        //TODO
+    private void onMoreActionClick() {
+        boss.openPanel();
+        panelFragment.showGallery();
     }
 
     @Override
@@ -164,11 +190,28 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         //界面没有显示布局，recyclerView一直显示，故该方法不需要任何实现
     }
 
+    @Override
+    public EditText getInputEditText() {
+        return edt_content;
+    }
+
+    @Override
+    public void onSendGallery(String[] paths) {
+        // 图片回调回来
+        presenter.pushImages(paths);
+    }
+
+    @Override
+    public void onRecordDone(File file, long time) {
+        // 语音回调回来
+        presenter.pushAudio(file.getAbsolutePath(), time);
+    }
+
     private class Adapter extends RecyclerAdapter<Message> {
 
         @Override
         protected int getItemViewType(int position, Message message) {
-            boolean isRight = Objects.equals(message.getSender().getId(), Account.getAccount());
+            boolean isRight = Objects.equals(message.getSender().getId(), Account.getUserId());
             switch (message.getType()) {
                 case Message.TYPE_AUDIO:
                     return isRight ? R.layout.cell_chat_audio_right : R.layout.cell_chat_audio_left;
@@ -176,7 +219,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
                     return isRight ? R.layout.cell_chat_pic_right : R.layout.cell_chat_pic_left;
                 //默认文字内容,我发送的在右边，收到的在左边
                 default:
-                    return isRight ? R.layout.cell_chat_text_right : R.layout.cell_chat_text_right;
+                    return isRight ? R.layout.cell_chat_text_right : R.layout.cell_chat_text_left;
             }
         }
 
@@ -218,6 +261,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
             //进行数据加载
             sender.load();
             iv_avatar.setup(Glide.with(getContext()), sender);
+
             if (loading != null) {
                 int status = message.getStatus();
                 //当前布局应该是在右边
@@ -267,8 +311,11 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         @Override
         protected void onBind(Message message) {
             super.onBind(message);
+            Spannable spannable = new SpannableString(message.getContent());
+            //解析表情
+            Face.decode(tv_content, spannable, (int) Ui.dipToPx(getResources(), 20f));
             //内容设置到布局
-            tv_content.setText(message.getContent());
+            tv_content.setText(spannable);
         }
     }
 
@@ -276,6 +323,8 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
     class AudioHolder extends BaseHolder {
         @BindView(R.id.tv_content)
         TextView tv_content;
+        @BindView(R.id.iv_audio_track)
+        ImageView iv_audio_track;
 
         public AudioHolder(@NonNull View itemView) {
             super(itemView);
@@ -284,14 +333,47 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         @Override
         protected void onBind(Message message) {
             super.onBind(message);
-            //TODO
+            String attach = TextUtils.isEmpty(message.getAttach()) ? "0" :
+                    message.getAttach();
+            tv_content.setText(formatTime(attach));
+
         }
+
+
+        // 当播放开始
+        void onPlayStart() {
+            // 显示
+            iv_audio_track.setVisibility(View.VISIBLE);
+        }
+
+        // 当播放停止
+        void onPlayStop() {
+            // 占位并隐藏
+            iv_audio_track.setVisibility(View.INVISIBLE);
+        }
+
+        private String formatTime(String attach) {
+            float time;
+            try {
+                // 毫秒转换为秒
+                time = Float.parseFloat(attach) / 1000f;
+            } catch (Exception e) {
+                time = 0;
+            }
+            // 12000/1000f = 12.0000000
+            // 取整一位小数点 1.234 -> 1.2 1.02 -> 1.0
+            String shortTime = String.valueOf(Math.round(time * 10f) / 10f);
+            // 1.0 -> 1     1.2000 -> 1.2
+            shortTime = shortTime.replaceAll("[.]0+?$|0+?$", "");
+            return String.format("%s″", shortTime);
+        }
+
     }
 
     //图片holder
     class PicHolder extends BaseHolder {
-        @BindView(R.id.tv_content)
-        TextView tv_content;
+        @BindView(R.id.iv_image)
+        ImageView iv_image;
 
         public PicHolder(@NonNull View itemView) {
             super(itemView);
@@ -300,7 +382,12 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         @Override
         protected void onBind(Message message) {
             super.onBind(message);
-            //TODO
+            //当为图片类型的时候，content即为图片地址
+            String contentUrl = message.getContent();
+            Glide.with(getContext())
+                    .load(contentUrl)
+                    .fitCenter()
+                    .into(iv_image);
         }
     }
 }

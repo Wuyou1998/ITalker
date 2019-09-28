@@ -41,4 +41,5 @@ public class ChatGroupPresenter extends ChatPresenter<ChatContact.GroupView> imp
             view.onInitGroupMembers(models, moreCount);
         }
     }
+
 }

@@ -40,6 +40,7 @@ dependencies {
     implementation "net.qiujuer.genius:ui:$rootProject.ext.geniusVersion"
     implementation "net.qiujuer.genius:res:$rootProject.ext.geniusVersion"
     implementation "net.qiujuer.genius:kit-handler:$rootProject.ext.geniusVersion"
+    implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
     // 空气面板
     implementation "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
     // Lame 录音 MP3 转码器

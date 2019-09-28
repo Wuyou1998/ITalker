@@ -3,9 +3,10 @@ package com.wy.common.widget;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+
+import net.qiujuer.widget.airpanel.AirPanelLinearLayout;
 
 /* 名称: ITalker.com.wy.common.widget.MessageLayout
  * 用户: _VIEW
@@ -13,7 +14,7 @@ import androidx.annotation.Nullable;
  * 描述: 修改LinearLayout的fitsSystemWindows属性
  *      使其能够保持沉浸式状态栏和弹出输入框
  */
-public class MessageLayout extends LinearLayout {
+public class MessageLayout extends AirPanelLinearLayout {
     public MessageLayout(Context context) {
         super(context);
     }

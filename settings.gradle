@@ -1,2 +1,2 @@
-include ':app', ':common', ':lang', ':factory'
+include ':app', ':common', ':lang', ':factory', ':faceres'
 rootProject.name='ITalker'

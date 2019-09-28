@@ -1,6 +1,8 @@
 package com.wy.italker.fragments.mian;
 
 
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.wy.common.app.PresenterFragment;
+import com.wy.common.face.Face;
 import com.wy.common.utils.DateTimeUtil;
 import com.wy.common.widget.EmptyView;
 import com.wy.common.widget.PortraitView;
@@ -117,7 +120,12 @@ public class ActiveFragment extends PresenterFragment<SessionContract.Presenter>
         protected void onBind(Session session) {
             iv_avatar.setup(Glide.with(getContext()), session.getPicture());
             tv_name.setText(session.getTitle());
-            tv_content.setText(TextUtils.isEmpty(session.getContent()) ? "" : session.getContent());
+            String content = TextUtils.isEmpty(session.getContent()) ? "" : session.getContent();
+            Spannable spannable = new SpannableString(content);
+            //解析表情
+            Face.decode(tv_content, spannable, (int) tv_content.getTextSize());
+            //内容设置到布局
+            tv_content.setText(spannable);
             tv_time.setText(DateTimeUtil.getSampleDate(session.getModifyAt()));
         }
     }

@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.wy.common.widget.MessageLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    app:collapsedTitleTextAppearance="@style/TextAppearance.Title"
-    app:contentScrim="@color/colorAccent"
-    app:expandedTitleGravity="bottom|center_horizontal"
-    app:expandedTitleMarginBottom="@dimen/len_16"
-    app:expandedTitleTextAppearance="@style/TextAppearance.Title"
-    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-    app:title="@string/app_name"
-    app:toolbarId="@id/toolbar"
-    tools:context=".fragments.message.ChatUserFragment">
+    android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -88,7 +79,8 @@
             android:src="@drawable/ic_record"
             android:tint="@color/textPrimary"
             android:foreground="@drawable/ic_touch_fg"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_submit"
@@ -101,4 +93,17 @@
             android:contentDescription="@string/app_name" />
     </LinearLayout>
 
+    <net.qiujuer.widget.airpanel.AirPanelFrameLayout
+        android:id="@id/airPanelSubLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_alpha_224"
+        android:visibility="gone">
+
+        <fragment
+            android:id="@+id/frag_panel"
+            class="com.wy.italker.fragments.panel.PanelFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </net.qiujuer.widget.airpanel.AirPanelFrameLayout>
 </com.wy.common.widget.MessageLayout>

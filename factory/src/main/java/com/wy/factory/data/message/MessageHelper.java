@@ -1,7 +1,16 @@
 package com.wy.factory.data.message;
 
+import android.os.SystemClock;
+import android.text.TextUtils;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.raizlabs.android.dbflow.sql.language.OperatorGroup;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.wy.common.Common;
+import com.wy.common.app.Application;
+import com.wy.common.utils.PicturesCompressor;
+import com.wy.common.utils.StreamUtil;
 import com.wy.factory.Factory;
 import com.wy.factory.model.api.RspModel;
 import com.wy.factory.model.api.message.MsgCreateModel;
@@ -10,6 +19,9 @@ import com.wy.factory.model.db.Message;
 import com.wy.factory.model.db.Message_Table;
 import com.wy.factory.net.Network;
 import com.wy.factory.net.RemoteService;
+import com.wy.factory.net.UploadHelper;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,11 +53,40 @@ public class MessageHelper {
                 if (message != null && message.getStatus() != Message.STATUS_FAILED)
                     return;
 
-                //TODO 文件类型的（图片，语音，文件），需要先上传后才发送
 
                 //在发送时需要通知界面刷新状态，Card
                 final MessageCard card = msgCreateModel.buildCard();
                 Factory.getMessageCenter().dispatch(card);
+
+                // 文件类型的（图片，语音，文件），需要先上传后才发送
+                if (card.getType() != Message.TYPE_STR) {
+                    //非文字类型
+                    if (!card.getContent().startsWith(Common.ALI_END_POINT)) {
+                        //没有上传服务器，还是手机中的路径
+                        String content;
+                        switch (card.getType()) {
+                            case Message.TYPE_PIC:
+                                content = upLoadPic(card.getContent());
+                                break;
+                            case Message.TYPE_AUDIO:
+                                content = upLoadAudio(card.getContent());
+                                break;
+                            default:
+                                content = "";
+                                break;
+                        }
+                        if (TextUtils.isEmpty(content)) {
+                            //失败
+                            card.setStatus(Message.STATUS_FAILED);
+                            Factory.getMessageCenter().dispatch(card);
+                        }
+                        //成功则用网络路径替换本地路径
+                        card.setContent(content);
+                        Factory.getMessageCenter().dispatch(card);
+                        //卡片内容变了，上传服务器用的是msgCreateModel，所以msgCreateModel也要改
+                        msgCreateModel.refreshByCard();
+                    }
+                }
 
                 //直接发送
                 RemoteService service = Network.remote();
@@ -76,6 +117,48 @@ public class MessageHelper {
                 });
             }
         });
+    }
+
+    //上传图片
+    private static String upLoadPic(String content) {
+        File file = null;
+        try {
+            //通过glide的缓存区间解决了图片外部权限的问题
+            file = Glide.with(Application.getInstance()).load(content)
+                    .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (file != null) {
+            //进行压缩
+            String cacheDir = Application.getCacheDirFile().getAbsolutePath();
+            String tempFile = String.format("%s/image/Cache_%s.png", cacheDir, SystemClock.uptimeMillis());
+            try {
+                // 压缩工具类
+                if (PicturesCompressor.compressImage(file.getAbsolutePath(), tempFile,
+                        Common.MAX_UPLOAD_IMAGE_LENGTH)) {
+                    //上传
+                    String ossPath = UploadHelper.uploadImage(tempFile);
+                    //清理缓存
+                    StreamUtil.delete(tempFile);
+                    return ossPath;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+    }
+
+    //上传语音
+    private static String upLoadAudio(String content) {
+        // 上传语音
+        File file = new File(content);
+        if (!file.exists() || file.length() <= 0)
+            return null;
+        // 上传并返回
+        return UploadHelper.uploadAudio(content);
     }
 
     /**

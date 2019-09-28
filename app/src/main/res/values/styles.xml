@@ -48,8 +48,9 @@
         <item name="android:textColor">?attr/toolbarTitleColor</item>
     </style>
 
-    <style name="AppTheme.FullScreen" parent="AppTheme">
+    <style name="AppTheme.FullScreen" parent="AppTheme.TransStatusBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/grey_700</item>
     </style>
 </resources>

@@ -2,7 +2,6 @@ package com.wy.italker.fragments.message;
 
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +19,7 @@ import com.wy.factory.model.db.view.MemberUserModel;
 import com.wy.factory.presenter.message.ChatContact;
 import com.wy.factory.presenter.message.ChatGroupPresenter;
 import com.wy.italker.R;
+import com.wy.italker.activities.GroupMemberActivity;
 import com.wy.italker.activities.PersonalActivity;
 
 import java.util.List;
@@ -95,7 +95,9 @@ public class ChatGroupFragment extends ChatFragment<Group> implements ChatContac
             tv_more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO 显示成员列表
+                    //显示成员列表
+                    //mReceiverId 就是群的id
+                    GroupMemberActivity.show(getContext(), mReceiverId);
                 }
             });
         } else {
@@ -109,8 +111,9 @@ public class ChatGroupFragment extends ChatFragment<Group> implements ChatContac
             toolbar.inflateMenu(R.menu.chat_group);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_add) {
-                    //TODO 成员添加操作
-
+                    //成员添加操作
+                    //mReceiverId 就是群的id
+                    GroupMemberActivity.showAdmin(getContext(), mReceiverId);
                     return true;
                 }
                 return false;

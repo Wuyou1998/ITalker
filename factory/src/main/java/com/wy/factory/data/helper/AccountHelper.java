@@ -86,6 +86,13 @@ public class AccountHelper {
                                Response<RspModel<AccountRspModel>> response) {
             //请求成功，从返回中获取全局model，内部是使用的Gson解析
             RspModel<AccountRspModel> rspModel = response.body();
+            //TODO服务器出错Body返回null app就闪退了
+            if (rspModel == null) {
+                //网络请求失败
+                if (userCallback != null)
+                    userCallback.onDataNotAvailable(R.string.data_network_error);
+                return;
+            }
             //判断绑定状态，是否绑定设备
             if (rspModel.success()) {
                 //拿到实体
