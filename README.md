@@ -3,7 +3,7 @@
 由于这个App需要配置服务端，所以放安装包就是没有意义的了
 导入代码后，需要在Commom包下面修改baseUrl为你的本地url即可
 
-启动、注册登录、添加个人信息
+启动、注册登录、添加个人信息  
 <img src="https://github.com/Wuyou1998/ITalker/blob/master/IMAGE/01_%E5%90%AF%E5%8A%A8.gif" width="250"/>
 <img src="https://github.com/Wuyou1998/ITalker/blob/master/IMAGE/02_%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95.gif" width="250"/>
 <img src="https://github.com/Wuyou1998/ITalker/blob/master/IMAGE/03_%E6%B7%BB%E5%8A%A0%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF.gif" width="250"/>
