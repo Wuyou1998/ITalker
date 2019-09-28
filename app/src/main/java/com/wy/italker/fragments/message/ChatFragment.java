@@ -187,7 +187,9 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
 
     @Override
     public void onAdapterDataChanged() {
-        //界面没有显示布局，recyclerView一直显示，故该方法不需要任何实现
+        //消息来了后自动滚到最后一行
+        if (adapter.getItemCount() > 0)
+            rv_recycler.smoothScrollToPosition(adapter.getItemCount() - 1);
     }
 
     @Override

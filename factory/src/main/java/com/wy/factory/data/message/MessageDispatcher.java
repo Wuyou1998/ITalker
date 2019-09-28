@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.wy.factory.data.helper.DbHelper;
 import com.wy.factory.data.helper.GroupHelper;
+import com.wy.factory.data.helper.MessageHelper;
 import com.wy.factory.data.helper.UserHelper;
 import com.wy.factory.model.card.MessageCard;
 import com.wy.factory.model.db.Group;

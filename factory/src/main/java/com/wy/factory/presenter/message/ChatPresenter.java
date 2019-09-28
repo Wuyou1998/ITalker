@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.wy.factory.data.message.MessageDataSource;
-import com.wy.factory.data.message.MessageHelper;
+import com.wy.factory.data.helper.MessageHelper;
 import com.wy.factory.model.api.message.MsgCreateModel;
 import com.wy.factory.model.db.Message;
 import com.wy.factory.persistence.Account;

@@ -20,7 +20,7 @@
             <!--顶部布局的占位-->
             <ViewStub
                 android:id="@+id/vs_view_stub"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed|enterAlways"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -31,6 +31,7 @@
             android:layout_height="match_parent"
             android:paddingTop="@dimen/len_8"
             android:paddingBottom="@dimen/len_8"
+            android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -79,8 +80,7 @@
             android:src="@drawable/ic_record"
             android:tint="@color/textPrimary"
             android:foreground="@drawable/ic_touch_fg"
-            android:contentDescription="@string/app_name"
-            android:visibility="gone"/>
+            android:contentDescription="@string/app_name" />
 
         <ImageView
             android:id="@+id/iv_submit"

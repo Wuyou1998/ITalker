@@ -5,6 +5,8 @@ import com.wy.factory.data.message.MessageRepository;
 import com.wy.factory.model.db.Message;
 import com.wy.factory.model.db.User;
 
+import java.util.List;
+
 /* 名称: ITalker.com.wy.factory.presenter.message.ChatUserPresenter
  * 用户: _VIEW
  * 时间: 2019/9/22,23:27
@@ -25,4 +27,8 @@ public class ChatUserPresenter extends ChatPresenter<ChatContact.UserView> imple
         getView().onInit(receiver);
     }
 
+    @Override
+    public void onDataLoad(List<Message> messages) {
+        super.onDataLoad(messages);
+    }
 }

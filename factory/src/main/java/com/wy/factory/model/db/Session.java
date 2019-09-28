@@ -8,7 +8,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.wy.factory.data.helper.GroupHelper;
 import com.wy.factory.data.helper.UserHelper;
-import com.wy.factory.data.message.MessageHelper;
+import com.wy.factory.data.helper.MessageHelper;
 
 import java.util.Date;
 import java.util.Objects;

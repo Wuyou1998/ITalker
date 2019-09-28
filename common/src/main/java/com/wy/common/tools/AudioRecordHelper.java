@@ -5,7 +5,7 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.SystemClock;
 import android.util.Log;
-
+import android.widget.Toast;
 
 import com.wy.common.app.Application;
 
@@ -194,9 +194,16 @@ public class AudioRecordHelper {
         final RecordCallback callback = this.callback;
 
         // 初始化Lame转码库相关参数，传入当前的输入采样率，通道，以及输出的mp3格式的采样率
-        Lame lame = new Lame(audioRecorder.getSampleRate(),
-                audioRecorder.getChannelCount(),
-                audioRecorder.getSampleRate());
+        Lame lame;
+        try {
+            lame = new Lame(audioRecorder.getSampleRate(),
+                    audioRecorder.getChannelCount(),
+                    audioRecorder.getSampleRate());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            Toast.makeText(Application.getInstance(), "lame 初始化失败,目前录音这方面还是有bug，等我后续修复哈", Toast.LENGTH_LONG).show();
+            return null;
+        }
         // 构建一个输出流，定向到文件流上面
         LameOutputStream lameOutputStream = new LameOutputStream(lame, outputStream, shortBufferSize);
         // 构建一个异步的编码器，这样可以避免阻塞当前线程读取用户的录音

@@ -78,7 +78,6 @@ public abstract class RecyclerAdapter<Data> extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(@NonNull ViewHolder<Data> holder, int position) {
         Data data = mDataList.get(position);
         holder.bind(data);
-
     }
 
     @Override

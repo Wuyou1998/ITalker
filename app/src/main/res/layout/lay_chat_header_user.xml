@@ -8,7 +8,6 @@
     app:expandedTitleMarginBottom="@dimen/len_16"
     app:expandedTitleTextAppearance="@style/TextAppearance.Title"
     app:collapsedTitleTextAppearance="@style/TextAppearance.Title"
-    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
